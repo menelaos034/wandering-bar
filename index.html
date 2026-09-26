@@ -394,7 +394,7 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
 .gal-slide figcaption{position:absolute;left:14px;bottom:14px;background:rgba(255,255,255,.92);color:var(--green);font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:7px 12px;border-radius:99px}
 .gal-bar{position:relative;height:3px;border-radius:4px;background:var(--line);overflow:hidden;margin-top:26px}
 .gal-bar i{position:absolute;inset:0;display:block;transform-origin:0 50%;transform:scaleX(.02);background:var(--gold);border-radius:4px}
-@media (max-width:620px){.gal-slide{height:420px}.gal-slide.w{aspect-ratio:4/5}}
+@media (max-width:620px){.gal-slide{height:min(420px,56svh)}.gal-slide.w{aspect-ratio:4/5}}
 
 /* enquiry */
 .quote-box{position:relative;overflow:hidden;background:var(--green);border-radius:32px;padding:clamp(24px,5vw,72px);display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(32px,5vw,72px);color:var(--white)}
@@ -777,6 +777,7 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
 
 <!-- ================= GALLERY ================= -->
 <section class="section" id="gallery" data-gallery style="padding-top:0">
+  <div class="gal-stage">
   <div class="wrap">
     <div class="sec-head">
       <div><span class="eyebrow">Gallery</span><h2 class="h-lg" data-split>Behind the bar.</h2></div>
@@ -800,6 +801,7 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
   </div>
   </div>
   <div class="wrap"><div class="gal-bar"><i></i></div></div>
+  </div>
 </section>
 
 <!-- ================= CONTACT ================= -->
@@ -1125,11 +1127,15 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
       const { wide } = c.conditions;
       pin.classList.add('gal-pinned');
       const dist = () => Math.max(0, track.scrollWidth - window.innerWidth);
+      // on phones pin the whole block (title + slides + bar) centred in the viewport instead of stuck to the top
+      const stage = pin.closest('.gal-stage');
+      const fits = () => stage.offsetHeight + 70 < window.innerHeight;
       const tween = gsap.to(track, {
         x: () => -dist(), ease: 'none',
         scrollTrigger: {
-          trigger: pin, start: 'top top', end: () => '+=' + dist(),
-          pin: true, scrub: wide ? 0.6 : 0.3, invalidateOnRefresh: true, anticipatePin: 1, fastScrollEnd: true,
+          trigger: wide ? pin : stage, pin: wide ? pin : stage,
+          start: wide ? 'top top' : () => (fits() ? 'center center' : 'top 66px'), end: () => '+=' + dist(),
+          scrub: wide ? 0.6 : 0.3, invalidateOnRefresh: true, anticipatePin: 1, fastScrollEnd: true,
           onUpdate: (self) => setIndex(Math.round(self.progress * (slides.length - 1))),
         },
       });
