@@ -639,7 +639,7 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
 
 <section class="action" aria-label="Meet Andrew video">
   <div class="action-card on-dark" id="actionCard">
-    <video id="introVideo" src="assets/intro.mp4" poster="assets/intro.jpg" muted loop playsinline autoplay preload="metadata"></video>
+    <video id="introVideo" poster="assets/intro.jpg" muted loop playsinline webkit-playsinline autoplay preload="metadata"><source src="assets/intro.mp4" type="video/mp4"></video>
     <div class="shade"></div>
     <button class="vid-close" id="vidClose" type="button" hidden>Close video</button>
     <div class="action-in">
@@ -843,7 +843,7 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
           <div class="fields">
             <label class="field" for="q-date">Event date<input id="q-date" name="date" type="date" required></label>
             <label class="field" for="q-area">District<select id="q-area" name="area" required><option value="">Choose a district</option><option>Paphos</option><option>Limassol</option><option>Larnaca</option><option>Nicosia</option><option>Famagusta</option><option>Other</option></select></label>
-            <label class="field full" for="q-venue">Venue or location (optional)<input id="q-venue" name="venue" placeholder="Home, villa, beach, hotel…"></label>
+            <label class="field full" for="q-venue">Venue or location<input id="q-venue" name="venue" required placeholder="Name of the venue, hotel, villa or address"></label>
           </div>
         </fieldset>
         <fieldset class="qstep" data-step="details" hidden>
@@ -1011,14 +1011,30 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
   const vid = document.getElementById('introVideo');
   const playBtn = document.getElementById('playBtn');
   const vidClose = document.getElementById('vidClose');
+  /* mobile browsers are strict about video: force the inline/muted flags in JS too,
+     start the muted preview only when it's on screen, and never leave a failed play() silent */
+  vid.muted = true; vid.defaultMuted = true; vid.playsInline = true;
+  vid.setAttribute('webkit-playsinline', '');
+  const safePlay = () => { const p = vid.play(); return p && p.catch ? p : Promise.resolve(); };
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver((es) => es.forEach((e) => {
+      if (card.classList.contains('playing')) return;
+      if (e.isIntersecting) { vid.preload = 'auto'; vid.muted = true; safePlay().catch(() => {}); }
+      else vid.pause();
+    }), { threshold: 0.2 }).observe(vid);
+  } else safePlay().catch(() => {});
   playBtn.addEventListener('click', () => {
-    vid.currentTime = 0; vid.muted = false; vid.loop = false; vid.controls = true;
-    vid.play().catch(() => {});
     card.classList.add('playing'); vidClose.hidden = false;
+    vid.loop = false; vid.controls = true; vid.muted = false;
+    try { vid.currentTime = 0; } catch (_) {}
+    safePlay().catch(() => {
+      /* sound blocked (e.g. in-app browsers): play muted with controls so the viewer can unmute */
+      vid.muted = true; safePlay().catch(() => {});
+    });
   });
   const stopVid = () => {
     vid.muted = true; vid.loop = true; vid.controls = false;
-    card.classList.remove('playing'); vidClose.hidden = true; vid.play().catch(() => {});
+    card.classList.remove('playing'); vidClose.hidden = true; safePlay().catch(() => {});
   };
   vidClose.addEventListener('click', stopVid);
   vid.addEventListener('ended', stopVid);
@@ -1130,7 +1146,7 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
         'Guests: about ' + d.get('guests'),
         'Package: ' + d.get('pkg'),
         'Date: ' + d.get('date'),
-        'Location: ' + d.get('area') + (d.get('venue') ? ' (' + d.get('venue') + ')' : ''),
+        'Location: ' + d.get('venue') + ', ' + d.get('area'),
         'Name: ' + d.get('name'),
         'Phone: ' + d.get('phone'),
       ];
