@@ -1,0 +1,2 @@
+---
+deployment: {tasks: ["export DEPLOYPATH=/home/videoham/wanderingbarcy.com/", "/bin/cp -R index.html assets $DEPLOYPATH"]}
