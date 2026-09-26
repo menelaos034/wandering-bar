@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wandering Bar</title>
+<meta name="description" content="Wandering Bar: mobile cocktail bar for private events across Cyprus. Professional bartending by Andrew Papaloucas for private parties, weddings and corporate events.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Hanken+Grotesk:wght@400;500;600;700&family=Pinyon+Script&display=swap">
+<style>
+/* ===========================================================
+   Wandering Bar · site styles
+   Brand: bottle green #143D29 · brass gold #AE8840 · ivory #F5F1E6
+   Type: Gloock (display) · Hanken Grotesk (body) · Pinyon Script (accent)
+   =========================================================== */
+:root{
+  --ink:#0D281B; --ink-2:#143322; --ink-line:#24503A;
+  --green:#143D29; --green-d:#0F3021;
+  --gold:#AE8840; --gold-2:#C4A160; --gold-soft:#E4CF9C;
+  --ivory:#F5F1E6; --champ:#EAE0C8; --paper:#FBF9F4; --white:#FFFFFF;
+  --line:#E6DFCF; --muted:#66675A; --moss:#4B5347; --on-dark:#BFCBBE;
+  --display:"Gloock","Bodoni 72",Didot,Georgia,serif;
+  --body:"Hanken Grotesk","Helvetica Neue",Arial,sans-serif;
+  --script:"Pinyon Script","Snell Roundhand",cursive;
+  --gutter:clamp(16px,5vw,80px);
+  --radius:24px;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --pattern:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='none' stroke='%23AE8840' stroke-opacity='.22' stroke-width='1.2'%3E%3Cpath d='M40 88c10-14 24-24 44-28'/%3E%3Cpath d='M58 71c-4-9-2-17 6-22 4 8 2 16-6 22z'/%3E%3Cpath d='M70 64c2-10 9-15 18-14-2 9-9 14-18 14z'/%3E%3Cpath d='M52 78c-9-2-15 1-18 8 8 3 14 0 18-8z'/%3E%3C/g%3E%3Ccircle cx='76' cy='70' r='3.2' fill='%23AE8840' fill-opacity='.2'/%3E%3C/svg%3E");
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16.5px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,video{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3,h4{font-family:var(--display);font-weight:400;letter-spacing:-.015em;line-height:1.22;margin:0;text-wrap:balance}
+p{margin:0}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
+[hidden]{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.wrap{width:100%;max-width:1440px;margin-inline:auto;padding-inline:var(--gutter)}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.eyebrow::before{content:"";width:22px;height:1.5px;background:currentColor}
+.on-dark .eyebrow{color:var(--gold-soft)}
+.lede{font-size:clamp(16px,1.25vw,18.5px);line-height:1.7;color:var(--moss);max-width:60ch}
+.on-dark .lede{color:var(--on-dark)}
+.h-lg{font-size:clamp(38px,5.2vw,78px)}
+.h-md{font-size:clamp(32px,3.8vw,58px)}
+.accent{color:var(--gold)}
+.on-dark .accent{color:var(--gold-soft)}
+.script{font-family:var(--script);font-weight:400;letter-spacing:0}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;height:56px;padding:0 28px;border-radius:999px;font-weight:700;font-size:14px;letter-spacing:.06em;text-transform:uppercase;border:1.5px solid transparent;cursor:pointer;white-space:nowrap;transition:background .3s var(--ease),color .3s var(--ease),border-color .3s var(--ease)}
+.btn svg{width:18px;height:18px;flex-shrink:0;transition:transform .35s var(--ease)}
+.btn:hover svg{transform:translateX(4px)}
+.btn-ink{background:var(--green);color:var(--white)} .btn-ink svg{stroke:var(--gold-soft)}
+.btn-ink:hover{background:var(--ink)}
+.btn-gold{background:var(--gold);color:var(--white)} .btn-gold:hover{background:var(--ink);color:var(--gold-soft)}
+.on-dark .btn-gold:hover,.quote-box .btn-gold:hover{background:var(--white);color:var(--green)}
+.btn-line{border-color:var(--green);color:var(--green);background:transparent} .btn-line:hover{background:var(--green);color:var(--white)}
+.on-dark .btn-line{border-color:rgba(255,255,255,.45);color:var(--white)} .on-dark .btn-line:hover{background:var(--white);color:var(--green)}
+.btn-sm{height:46px;padding:0 20px;font-size:12.5px}
+.link-u{display:inline-flex;align-items:center;gap:10px;font-weight:700;border-bottom:2px solid var(--gold);padding-bottom:6px}
+.link-u svg{width:16px;height:16px;transition:transform .35s var(--ease)} .link-u:hover svg{transform:translateX(4px)}
+
+/* ---------- loader ---------- */
+.loader{position:fixed;inset:0;z-index:200;background:var(--ink);display:grid;place-items:center}
+.loader img{width:min(220px,50vw);clip-path:inset(100% 0 0 0)}
+html:not(.motion) .loader{display:none}
+
+/* ---------- header ---------- */
+.site-header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:50}
+.hdr-wrap{padding:10px var(--gutter) 0}
+.hdr{max-width:1440px;margin-inline:auto;display:flex;align-items:center;gap:24px;height:66px;padding:0 9px 0 18px;border-radius:999px;transition:background .4s var(--ease),box-shadow .4s var(--ease)}
+.site-header.is-solid .hdr{background:rgba(251,249,244,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 10px 30px rgba(13,40,27,.1)}
+.hdr-logo img{height:46px;width:auto}
+.hdr-nav{display:flex;align-items:center;gap:clamp(12px,1.5vw,22px);margin-left:16px;font-weight:600;font-size:13.5px}
+.hdr-nav>a{position:relative;padding:6px 0;white-space:nowrap}
+.hdr-nav>a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1.5px;background:var(--gold);transform:scaleX(0);transform-origin:right;transition:transform .4s var(--ease)}
+.hdr-nav>a:hover::after,.hdr-nav>a[aria-current="true"]::after{transform:scaleX(1);transform-origin:left}
+.hdr-spacer{flex:1}
+.menu-btn{width:48px;height:48px;border-radius:99px;border:1.5px solid var(--green);background:transparent;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;cursor:pointer;flex-shrink:0}
+.menu-btn span{width:18px;height:2px;background:var(--green);border-radius:2px;transition:transform .4s var(--ease),width .4s var(--ease)}
+.menu-btn span+span{width:12px;margin-left:6px}
+.menu-btn:hover span+span{transform:translateX(-3px);width:18px}
+@media (max-width:1220px){.hdr-nav{display:none}}
+@media (max-width:560px){.hdr .btn-quote{display:none}.hdr{height:58px;gap:12px}.hdr-logo img{height:38px}}
+
+/* ---------- fullscreen menu ---------- */
+.menu{position:fixed;inset:0;z-index:100;background:var(--ink);color:var(--white);display:flex;flex-direction:column;padding:calc(14px + env(safe-area-inset-top,0px)) var(--gutter) calc(32px + env(safe-area-inset-bottom,0px));overflow-y:auto;visibility:hidden;clip-path:inset(0 0 100% 0)}
+.menu.is-open{visibility:visible;clip-path:inset(0 0 0 0)}
+.menu-top{display:flex;justify-content:space-between;align-items:center;height:68px;padding-inline:18px 10px;max-width:1440px;margin-inline:auto;width:100%}
+.menu-top img{height:50px;width:auto}
+.menu-close{width:48px;height:48px;border-radius:99px;border:none;background:var(--gold);display:grid;place-items:center;cursor:pointer;color:var(--white)}
+.menu-close svg{width:18px;height:18px}
+.menu-body{flex:1;display:grid;grid-template-columns:1fr;align-content:center;gap:clamp(32px,6vw,96px);max-width:1440px;margin-inline:auto;width:100%;padding:clamp(20px,4vh,48px) 18px 0}
+.menu-nav{display:flex;flex-direction:column}
+.mi{border-bottom:1px solid var(--ink-line);padding:8px 0}
+.mi:last-child{border-bottom:0}
+.mi>a{display:flex;align-items:baseline;gap:clamp(12px,2vw,28px);overflow:hidden;transition:padding-left .5s var(--ease)}
+.mi>a:hover{padding-left:14px}
+.subs{display:flex;flex-wrap:wrap;gap:6px 22px;padding:4px 0 6px calc(28px + clamp(12px,2vw,28px))}
+.subs a{font-size:15px;font-weight:600;color:var(--on-dark);display:inline-flex;align-items:center;gap:8px}
+.subs a::before{content:"";width:12px;height:1.5px;background:var(--gold)}
+.subs a:hover{color:var(--gold-soft)}
+.menu-nav .n{font-size:13px;font-weight:700;color:var(--gold-soft);width:28px;font-variant-numeric:tabular-nums}
+.menu-nav .t{display:inline-block;font-family:var(--display);font-size:clamp(40px,6vw,84px);line-height:1.08;transition:color .3s}
+.menu-nav a:hover .t{color:var(--gold-soft)}
+.menu-side{display:flex;flex-direction:column;gap:34px}
+.menu-side h4{font-family:var(--body);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-soft);margin-bottom:12px}
+.menu-side a.u,.menu-side span.u{display:block;font-size:18px;font-weight:500;padding:4px 0;color:#E7EDE3}
+.menu-side a.u:hover{color:var(--gold-soft)}
+.menu-phone{font-family:var(--display);font-size:30px}
+.menu-foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:#94A898;font-size:14px;max-width:1440px;margin:32px auto 0;width:100%;padding-inline:18px}
+@media (max-width:820px){.menu-body{grid-template-columns:1fr}}
+
+/* ---------- HERO (pinned scroll story) ---------- */
+.hero{position:relative;background:var(--ivory);overflow:hidden;color:var(--ink)}
+.hero-pattern{position:absolute;inset:0;background-image:var(--pattern);opacity:.55;-webkit-mask-image:linear-gradient(180deg,transparent 0,transparent 42%,#000 70%);mask-image:linear-gradient(180deg,transparent 0,transparent 42%,#000 70%)}
+.hero-stage{position:relative;height:100svh;min-height:640px;max-height:1100px}
+.hero-circle{position:absolute;left:50%;top:72%;width:min(58vmin,600px);aspect-ratio:1;border-radius:50%;background:var(--champ);transform:translate(-50%,-50%);will-change:transform}
+.hero-l1{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-start;padding:calc(124px + env(safe-area-inset-top,0px)) var(--gutter) 0;pointer-events:none;z-index:3}
+.hero-title{font-size:clamp(46px,7.4vw,124px);line-height:1.08;letter-spacing:-.03em;max-width:1440px;margin-inline:auto;width:100%;color:var(--green)}
+.hero-title .ln{display:block;will-change:transform}
+.hero-title .ln-2{text-align:right;color:#8A6724}
+.hero-mark-wrap{position:absolute;left:0;right:0;bottom:clamp(70px,10vh,104px);display:flex;justify-content:center;z-index:2;pointer-events:none}
+.hero-mark{position:relative;width:min(62vw,600px);will-change:transform;opacity:.55}
+.hero-mark img{width:100%;height:auto}
+.hero-mark .light{position:absolute;inset:0;opacity:0}
+.hero-bar{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:0 var(--gutter) 22px}
+.hero-bar-in{max-width:1440px;margin-inline:auto;display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:13.5px;font-weight:600}
+.scroll-cue{display:inline-flex;align-items:center;gap:12px}
+.scroll-cue i{position:relative;width:26px;height:40px;border:1.5px solid var(--green);border-radius:20px}
+.scroll-cue i::after{content:"";position:absolute;left:50%;top:8px;width:4px;height:8px;border-radius:4px;background:var(--gold);transform:translateX(-50%);animation:cue 1.8s var(--ease) infinite}
+@keyframes cue{0%{opacity:0;transform:translate(-50%,0)}30%{opacity:1}100%{opacity:0;transform:translate(-50%,14px)}}
+.hero-tags{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.hero-tags span{padding:8px 14px;border-radius:99px;background:rgba(255,255,255,.72);backdrop-filter:blur(6px)}
+.hero-l2{position:absolute;inset:0;z-index:4;display:flex;align-items:center;padding:110px var(--gutter) 40px;color:var(--white)}
+.hero-l2 .lede{color:#E4EBE1;font-size:clamp(16.5px,1.3vw,19px)}
+.hero-l2 .h-lg{color:var(--white)}
+.hero-l2-in{max-width:1440px;margin-inline:auto;width:100%}
+.hero-l2-copy{max-width:620px;display:flex;flex-direction:column;gap:24px}
+.hero-l2-copy .lede{max-width:54ch}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
+.hero-chip{position:absolute;z-index:3;display:flex;gap:12px;align-items:center;background:var(--white);color:var(--ink);padding:12px 18px 12px 12px;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,.22);font-size:13px;line-height:1.4}
+.hero-chip b{display:block;font-size:15px}
+.hero-chip .ic{width:42px;height:42px;border-radius:12px;background:var(--ivory);display:grid;place-items:center}
+.hero-chip .ic svg{width:20px;height:20px;stroke:var(--gold)}
+.hero-chip.c1{right:calc(var(--gutter) + 24vw);top:24%}
+.hero-chip.c2{right:var(--gutter);bottom:16%;background:var(--gold);color:var(--white)}
+.hero-chip.c2 .ic{background:var(--ink)} .hero-chip.c2 .ic svg{stroke:var(--gold-soft)}
+.hero-segs{background:var(--paper);border-bottom:1px solid var(--line)}
+.hero-segs .wrap{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.hero-segs a{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:26px 24px;font-family:var(--display);font-size:clamp(18px,1.55vw,23px);border-right:1px solid var(--line);transition:color .3s}
+.hero-segs a:hover{color:var(--gold)}
+.hero-segs a:first-child{padding-left:0}.hero-segs a:last-child{border-right:0}
+.hero-segs a svg{width:18px;height:18px;stroke:var(--gold);transition:transform .4s var(--ease);flex-shrink:0}
+.hero-segs a:hover svg{transform:rotate(45deg)}
+@media (max-width:900px){
+  .hero-segs .wrap{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero-segs a{padding:20px 16px!important;border-bottom:1px solid var(--line)}
+  .hero-segs a:nth-child(2n){border-right:0}
+  .hero-chip,.hero-tags{display:none}
+  .hero-l1{padding-top:calc(112px + env(safe-area-inset-top,0px))}
+  .hero-mark{width:min(86vw,520px)}
+}
+@media (max-width:600px){
+  .hero-l2{padding-top:104px;align-items:flex-start}
+  .hero-l2-copy{gap:14px}
+  .hero-l2-copy .lede{font-size:15px;line-height:1.6}
+  .hero-l2 .btn{height:50px;padding:0 22px}
+}
+/* no-motion fallback: hero stacks */
+html:not(.motion) .hero-stage{height:auto;min-height:0;max-height:none}
+html:not(.motion) .hero-l1{position:relative;padding-bottom:30px}
+html:not(.motion) .hero-mark-wrap{position:relative;bottom:auto;padding-bottom:80px}
+html:not(.motion) .hero-l2{position:relative;background:var(--ink);padding:72px var(--gutter)}
+html:not(.motion) .hero-chip{display:none}
+
+/* ---------- sections ---------- */
+.section{padding-block:clamp(80px,10vw,140px)}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;margin-bottom:clamp(36px,4vw,56px)}
+.sec-head>div{display:flex;flex-direction:column;gap:16px;max-width:760px}
+.sec-head .lede{max-width:42ch}
+
+/* about */
+.intro-grid{display:grid;grid-template-columns:220px 1fr;gap:clamp(24px,5vw,80px)}
+.statement{font-size:clamp(30px,3.8vw,58px);line-height:1.14;color:var(--green)}
+.intro-media{display:grid;grid-template-columns:minmax(0,600px) minmax(0,1fr);gap:clamp(24px,5vw,80px);margin-top:clamp(48px,6vw,80px);align-items:end;margin-left:auto;max-width:1120px}
+.intro-img{position:relative;aspect-ratio:7/5;border-radius:var(--radius);overflow:hidden;background:var(--champ)}
+.intro-img img{position:absolute;left:0;width:100%;top:-12%;height:124%;object-fit:cover}
+.intro-media .copy{display:flex;flex-direction:column;gap:22px;padding-bottom:8px}
+.goal{font-family:var(--display);font-size:clamp(22px,2vw,28px);line-height:1.3;color:var(--green)}
+.pillars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:clamp(48px,6vw,80px)}
+.pillar{display:flex;gap:16px;align-items:flex-start;background:var(--white);border-radius:20px;padding:22px}
+.pillar .ic{width:52px;height:52px;border-radius:14px;background:var(--ivory);display:grid;place-items:center;flex-shrink:0}
+.pillar .ic svg{width:26px;height:26px;stroke:var(--gold)}
+.pillar h3{font-family:var(--body);font-size:15px;font-weight:700;letter-spacing:.02em;line-height:1.3;color:var(--green)}
+.pillar p{font-size:14.5px;color:var(--muted);margin-top:4px;line-height:1.55}
+@media (max-width:900px){.intro-grid,.intro-media{grid-template-columns:1fr}.pillars{grid-template-columns:1fr}}
+
+/* bartender head */
+.bt-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(32px,6vw,96px);align-items:start}
+.bt-photo{position:relative;aspect-ratio:4/5;border-radius:var(--radius);overflow:hidden;background:var(--champ)}
+.bt-photo img{position:absolute;left:0;width:100%;top:-8%;height:116%;object-fit:cover;object-position:50% 25%}
+.bt-photo .tag{position:absolute;left:16px;bottom:16px;z-index:2;background:rgba(255,255,255,.92);color:var(--green);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:8px 14px;border-radius:99px}
+.bt-name{font-size:clamp(44px,6vw,92px);color:var(--green)}
+.bt-role{font-size:13px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:14px}
+.years{display:flex;align-items:center;gap:24px;margin-top:40px;padding:26px 28px;border-radius:var(--radius);background:var(--white)}
+.years strong{font-family:var(--display);font-weight:400;font-size:clamp(80px,9vw,124px);line-height:.8;color:var(--gold);font-variant-numeric:tabular-nums;min-width:1.2em}
+.years > span{font-family:var(--display);font-size:clamp(21px,2vw,27px);line-height:1.25;color:var(--green);max-width:18ch}
+.bt-body{margin-top:34px;display:grid;gap:18px;max-width:60ch}
+.roles{margin-top:26px;display:flex;flex-wrap:wrap;gap:10px}
+.roles span{font-size:13.5px;font-weight:600;padding:9px 16px;border:1.5px solid var(--line);border-radius:999px;color:var(--green);background:var(--white)}
+@media (max-width:900px){.bt-grid{grid-template-columns:1fr}.bt-photo{max-width:520px}}
+
+/* career (pinned) */
+.adv{background:var(--ink);color:var(--white)}
+.adv-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,7vw,110px);align-items:center;min-height:100svh;padding-block:clamp(110px,10vw,130px) clamp(60px,8vw,100px)}
+.adv-media{position:relative;aspect-ratio:4/5;max-height:70svh;width:100%;border-radius:28px;overflow:hidden;background:var(--ink-2);justify-self:center}
+.adv-count{position:absolute;right:18px;top:16px;z-index:2;font-weight:700;font-size:13px;letter-spacing:.1em;color:var(--white);background:rgba(13,40,27,.6);padding:6px 12px;border-radius:99px;backdrop-filter:blur(4px);font-variant-numeric:tabular-nums}
+.adv-map{position:absolute;inset:0;width:100%;height:100%}
+.adv-map .map-land{fill:none;stroke:#3E7757;stroke-width:3;stroke-linecap:round;stroke-dasharray:0 7}
+.adv-map .map-uk{fill:none;stroke:var(--gold-2);stroke-width:3;stroke-linecap:round;stroke-dasharray:0 7}
+.adv-map .map-halo{fill:var(--gold-soft);opacity:.1}
+.adv-map .map-cy{fill:var(--gold-soft);stroke:var(--gold-soft);stroke-width:1.5;stroke-linejoin:round}
+.adv-map .map-route-bg{fill:none;stroke:rgba(228,207,156,.28);stroke-width:1.6;stroke-dasharray:2 7;stroke-linecap:round}
+.adv-map .map-route{fill:none;stroke:url(#routeGrad);stroke-width:2.6;stroke-linecap:round}
+.adv-map .map-chip rect{fill:var(--ink);stroke:rgba(228,207,156,.35);stroke-width:1}
+.adv-map .map-chip text{font-family:var(--body);font-size:12px;font-weight:700;letter-spacing:.06em;fill:var(--gold-soft);text-anchor:middle;dominant-baseline:middle}
+.adv-map .map-pin .dot{fill:var(--gold-soft);stroke:var(--ink-2);stroke-width:2.5}
+.adv-map .map-pin .ring{fill:none;stroke:var(--gold-soft);stroke-width:1.5;opacity:0}
+.adv-map .map-pin.is-on .ring{animation:mapPulse 2.2s var(--ease) infinite}
+@keyframes mapPulse{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(3.4)}}
+.adv-map .map-label .t{font-family:var(--display);font-size:26px;fill:var(--white)}
+.adv-map .map-label .s{font-family:var(--body);font-size:10.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;fill:var(--gold-soft)}
+.adv-map .map-label{opacity:.55;transition:opacity .5s}
+.adv-map .map-label.is-on{opacity:1}
+.adv-map .map-plane path{fill:var(--white)}
+.adv-map .map-plane{opacity:0;transition:opacity .35s}
+.adv-map .map-plane.is-on{opacity:1}
+.adv-list{display:flex;gap:28px;margin-top:40px}
+.adv-bar{width:3px;background:var(--ink-line);border-radius:3px;position:relative;flex-shrink:0}
+.adv-bar i{position:absolute;inset:0;background:var(--gold);border-radius:3px;transform-origin:top;transform:scaleY(.25)}
+.adv-items{display:flex;flex-direction:column;gap:26px}
+.adv-item h3{display:flex;gap:18px;align-items:baseline;font-size:clamp(24px,2.4vw,34px)}
+.adv-item h3 span{font-family:var(--body);font-size:13px;font-weight:700;color:var(--gold-soft);width:22px;flex-shrink:0}
+.adv-item p{color:var(--on-dark);padding-left:40px;max-width:46ch;margin-top:10px;font-size:16px}
+.adv-item .venues{display:block;color:var(--white);font-weight:600}
+.motion .adv-pinned .adv-item{opacity:.3;transition:opacity .5s}
+.motion .adv-pinned .adv-item p{height:0;overflow:hidden;margin-top:0}
+.motion .adv-pinned .adv-item.is-on{opacity:1}
+@media (max-width:900px){.adv-grid{grid-template-columns:1fr;min-height:0;padding-top:clamp(80px,10vw,120px)}.adv-media{aspect-ratio:4/3.4;max-width:560px}}
+
+/* qualifications */
+.quals-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:24px;align-items:stretch}
+.quals{background:var(--white);border-radius:var(--radius);padding:clamp(24px,3.4vw,44px)}
+.quals h3,.ltc h3{font-family:var(--body);font-size:12.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.quals ul{list-style:none;margin:18px 0 0;padding:0}
+.quals li{display:flex;justify-content:space-between;gap:18px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);font-size:16.5px;font-weight:500}
+.quals li:last-child{border-bottom:0}
+.quals li small{flex-shrink:0;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);background:var(--ivory);padding:6px 11px;border-radius:99px}
+.ltc{position:relative;overflow:hidden;background:var(--green);color:var(--white);border-radius:var(--radius);padding:clamp(28px,3.6vw,48px);display:flex;flex-direction:column;justify-content:space-between;gap:26px}
+.ltc h3{color:var(--gold-soft)}
+.ltc p{color:#DCE5DA;font-size:17px;max-width:44ch}
+.ltc .sign{font-family:var(--script);font-size:clamp(34px,3.4vw,48px);line-height:1.15;color:var(--gold-soft)}
+.bgmark{position:absolute;right:-60px;bottom:-40px;width:min(420px,70%);opacity:.12;pointer-events:none}
+.ltc>*:not(.bgmark){position:relative}
+@media (max-width:900px){.quals-grid{grid-template-columns:1fr}.quals li{flex-direction:column;align-items:flex-start;gap:8px}}
+
+/* video card (expands) */
+.action{padding-top:0}
+.action-card{position:relative;height:min(86svh,800px);min-height:480px;background:var(--ink-2);color:var(--white);overflow:hidden;clip-path:inset(0 var(--gutter) round 32px);display:flex;align-items:flex-end}
+.action-card video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.action-card .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,40,27,.1) 30%,rgba(13,40,27,.85));pointer-events:none;transition:opacity .5s}
+.action-card.playing .shade,.action-card.playing .action-in{opacity:0;pointer-events:none}
+.action-in{position:relative;z-index:2;width:100%;max-width:1440px;margin-inline:auto;padding:clamp(28px,5vw,72px) calc(var(--gutter) + clamp(20px,3vw,48px));display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;transition:opacity .5s}
+.action-in h2{max-width:14ch}
+.play{width:clamp(84px,9vw,124px);aspect-ratio:1;border-radius:99px;border:none;background:var(--gold);display:grid;place-items:center;cursor:pointer;transition:scale .5s var(--ease)}
+.play:hover{scale:1.08}
+.play svg{width:30%;fill:var(--white);margin-left:6%}
+.action-note{position:absolute;top:24px;right:calc(var(--gutter) + 28px);z-index:2;font-size:12.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--on-dark)}
+.vid-close{position:absolute;top:20px;left:calc(var(--gutter) + 20px);z-index:3;height:42px;padding:0 18px;border-radius:99px;border:0;background:rgba(255,255,255,.92);color:var(--green);font-weight:700;font-size:13px;cursor:pointer}
+
+/* cards (services / packages) */
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.cards.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:1100px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.cards.c3{grid-template-columns:1fr;max-width:620px}}
+@media (max-width:620px){.cards{grid-template-columns:1fr}}
+.card{position:relative;display:flex;flex-direction:column;background:var(--white);border-radius:var(--radius);padding:12px;transition:background .45s var(--ease),color .45s var(--ease),translate .45s var(--ease),box-shadow .45s var(--ease)}
+.card-media{position:relative;aspect-ratio:4/3.4;border-radius:16px;overflow:hidden;background-color:var(--ivory);background-image:var(--pattern);display:grid;place-items:center;transition:background-color .45s}
+.card-media svg{width:38%;height:auto;stroke:var(--gold);transition:transform .7s var(--ease),stroke .45s}
+.card-num{position:absolute;left:16px;top:14px;z-index:2;font-weight:700;font-size:13px;color:var(--gold);font-variant-numeric:tabular-nums}
+.card-body{padding:22px 12px 10px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card-row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.card h3{font-size:clamp(24px,2vw,30px);color:var(--green);transition:color .45s}
+.card p{font-size:15px;color:var(--muted);line-height:1.55;transition:color .45s}
+.card .arrow{width:44px;height:44px;border-radius:99px;border:1.5px solid var(--line);display:grid;place-items:center;flex-shrink:0;transition:background .45s,border-color .45s}
+.card .arrow svg{width:16px;height:16px;stroke:var(--green);transition:transform .45s var(--ease),stroke .45s}
+a.card:hover{background:var(--green);color:var(--white);translate:0 -8px;box-shadow:0 30px 60px rgba(13,40,27,.22)}
+a.card:hover h3{color:var(--white)}
+a.card:hover p{color:var(--on-dark)}
+a.card:hover .card-media{background-color:var(--ink-2)}
+a.card:hover .card-media svg{transform:scale(1.08) rotate(-4deg);stroke:var(--gold-soft)}
+a.card:hover .card-num{color:var(--gold-soft)}
+a.card:hover .arrow{background:var(--gold);border-color:var(--gold)}
+a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
+
+/* packages */
+.pk{padding:clamp(24px,2.6vw,36px);gap:0}
+.pk .tag{font-size:11.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.pk h3{font-size:clamp(32px,2.8vw,42px);margin-top:16px}
+.pk .for{margin-top:10px}
+.pk ul{list-style:none;padding:24px 0 0;margin:24px 0 30px;display:grid;gap:12px;border-top:1px solid var(--line)}
+.pk li{display:grid;grid-template-columns:20px 1fr;gap:10px;font-size:15.5px;line-height:1.5}
+.pk li svg{width:18px;height:18px;stroke:var(--gold);margin-top:2px}
+.pk .quote{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.pk .quote small{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.pk.feat{background:var(--green);color:var(--white);overflow:hidden}
+.pk.feat h3{color:var(--white)} .pk.feat .tag{color:var(--gold-soft)} .pk.feat p.for{color:var(--on-dark)}
+.pk.feat ul{border-color:var(--ink-line)} .pk.feat li svg{stroke:var(--gold-soft)}
+.pk.feat .quote small{color:var(--on-dark)}
+.pk.feat>*:not(.bgmark){position:relative}
+.pk:hover{translate:0 -8px;box-shadow:0 30px 60px rgba(13,40,27,.18)}
+
+/* cocktails */
+.ck-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(32px,6vw,96px);align-items:start}
+.ck-media{position:sticky;top:110px}
+.ck-img{position:relative;aspect-ratio:4/5;border-radius:var(--radius);overflow:hidden;background:var(--champ)}
+.ck-img img{position:absolute;left:0;width:100%;top:-10%;height:120%;object-fit:cover}
+.ck-img .tag{position:absolute;left:16px;bottom:16px;background:rgba(255,255,255,.92);color:var(--green);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:8px 14px;border-radius:99px}
+.menu-card{background:var(--white);border-radius:var(--radius);padding:10px}
+.menu-card+.menu-card{margin-top:18px}
+.menu-card h3{font-family:var(--body);font-size:12.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);padding:16px 18px 8px}
+.menu-card ul{list-style:none;margin:0;padding:0}
+.drink{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;padding:16px 18px;border-radius:16px;transition:background .4s var(--ease),color .4s}
+.drink+.drink{border-top:1px solid var(--line)}
+.drink:hover{background:var(--green);color:var(--white);border-color:transparent}
+.drink:hover+.drink{border-color:transparent}
+.drink .dot{width:16px;height:16px;border-radius:50%;background:var(--c);box-shadow:0 0 0 4px color-mix(in srgb,var(--c) 22%,transparent)}
+.drink h4{font-size:clamp(23px,2.1vw,29px);line-height:1.15;color:var(--green);transition:color .4s}
+.drink:hover h4{color:var(--white)}
+.drink .ing{font-size:14.5px;color:var(--muted);margin-top:3px;transition:color .4s}
+.drink:hover .ing{color:var(--on-dark)}
+.drink .zero{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--gold);border:1.5px solid currentColor;border-radius:99px;padding:3px 9px}
+.drink:hover .zero{color:var(--gold-soft)}
+.fav{position:relative;overflow:hidden;margin-top:18px;background:var(--green);color:var(--white);border-radius:var(--radius);padding:clamp(26px,3vw,40px);display:flex;flex-wrap:wrap;gap:22px;align-items:center;justify-content:space-between}
+.fav h4{font-size:clamp(26px,2.4vw,34px)}
+.fav p{color:var(--on-dark);margin-top:8px;max-width:40ch}
+.fav>*:not(.bgmark){position:relative}
+@media (max-width:900px){.ck-grid{grid-template-columns:1fr}.ck-media{position:relative;top:0;max-width:460px}}
+
+/* gallery */
+.gal-nav{display:flex;align-items:center;gap:14px}
+.gal-count{font-family:var(--display);font-size:20px;font-variant-numeric:tabular-nums}
+.gal-count span{color:#A9A48F}
+.gal-hint{display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.gal-hint svg{width:15px;height:15px;stroke:var(--gold);animation:galHint 1.6s ease-in-out infinite}
+@keyframes galHint{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+.gal-pin{overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;scrollbar-width:none}
+.gal-pin::-webkit-scrollbar{display:none}
+.gal-pin.gal-pinned{overflow:hidden;scroll-snap-type:none}
+.gal-track{display:flex;gap:18px;padding-inline:var(--gutter);width:max-content}
+.gal-slide{flex:none;height:clamp(380px,62vh,580px);border-radius:var(--radius);overflow:hidden;position:relative;background:var(--champ);margin:0;scroll-snap-align:start}
+.gal-slide.p{aspect-ratio:4/5}
+.gal-slide.v{aspect-ratio:9/15}
+.gal-slide.w{aspect-ratio:16/10}
+.gal-slide img,.gal-slide video{width:100%;height:100%;object-fit:cover;pointer-events:none;user-select:none}
+.gal-slide figcaption{position:absolute;left:14px;bottom:14px;background:rgba(255,255,255,.92);color:var(--green);font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:7px 12px;border-radius:99px}
+.gal-bar{position:relative;height:3px;border-radius:4px;background:var(--line);overflow:hidden;margin-top:26px}
+.gal-bar i{position:absolute;inset:0;display:block;transform-origin:0 50%;transform:scaleX(.02);background:var(--gold);border-radius:4px}
+@media (max-width:620px){.gal-slide{height:420px}.gal-slide.w{aspect-ratio:4/5}}
+
+/* enquiry */
+.quote-box{position:relative;overflow:hidden;background:var(--green);border-radius:32px;padding:clamp(24px,5vw,72px);display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(32px,5vw,72px);color:var(--white)}
+.quote-box .bgmark{left:-40px;right:auto;bottom:-50px;width:min(520px,60%)}
+.quote-copy{position:relative;display:flex;flex-direction:column;gap:22px}
+.quote-copy .lede{color:#DCE5DA}
+.details{display:flex;flex-direction:column;border-top:1px solid var(--ink-line);margin-top:6px}
+.det{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:15px 0;border-bottom:1px solid var(--ink-line)}
+.det small{display:block;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-soft)}
+.det .v{font-size:17px;font-weight:600;word-break:break-word}
+.det a.v:hover{color:var(--gold-soft)}
+.quote-copy .sign{font-family:var(--script);font-size:clamp(36px,3.4vw,50px);color:var(--gold-soft);line-height:1.1}
+@media (max-width:980px){.quote-box{grid-template-columns:1fr}}
+.qform{position:relative;background:var(--white);color:var(--ink);border-radius:24px;padding:clamp(20px,3.4vw,44px);display:flex;flex-direction:column;gap:22px;min-height:560px;align-self:start}
+.qform-top{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;font-weight:700;flex-wrap:wrap}
+.qform-top .s{color:var(--gold)} .qform-top .l{color:var(--muted)}
+.qprog{height:6px;background:var(--ivory);border-radius:6px;overflow:hidden}
+.qprog i{display:block;height:100%;width:25%;background:var(--gold);border-radius:6px;transition:width .6s var(--ease)}
+.qstep{display:flex;flex-direction:column;gap:18px;flex:1;border:0;padding:0;margin:0;min-width:0}
+.qstep h3{font-size:clamp(26px,2.4vw,36px);color:var(--green)}
+.qstep .sub{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:520px){.tiles{grid-template-columns:1fr}}
+.tile{position:relative;display:flex;align-items:center;gap:14px;border:1.5px solid var(--line);border-radius:16px;padding:17px;font-weight:600;cursor:pointer;transition:border-color .25s,background .25s}
+.tile input{accent-color:var(--green);width:20px;height:20px;margin:0;flex-shrink:0}
+.tile:hover{border-color:var(--gold)}
+.tile:has(input:checked){border:2px solid var(--green);background:#F3F5EE;font-weight:700}
+.counter{display:flex;justify-content:space-between;align-items:center;gap:12px;border:1.5px solid var(--line);border-radius:16px;padding:12px 14px 12px 18px}
+.counter b{font-weight:700;font-size:15px}
+.counter .ctl{display:flex;align-items:center;gap:12px}
+.counter button{width:42px;height:42px;border-radius:99px;border:1.5px solid var(--line);background:var(--white);font-size:20px;line-height:1;cursor:pointer}
+.counter button.plus{background:var(--green);color:var(--gold-soft);border-color:var(--green)}
+.counter output{font-family:var(--display);font-size:26px;min-width:44px;text-align:center;font-variant-numeric:tabular-nums}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.fields .full{grid-column:1/-1}
+@media (max-width:520px){.fields{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:700}
+.field input,.field select,.field textarea{height:54px;border-radius:14px;border:1.5px solid var(--line);padding:0 16px;font-size:16px;font-weight:500;background:var(--white);transition:border-color .25s;width:100%}
+.field textarea{height:110px;padding:14px 16px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--green);outline:none;box-shadow:0 0 0 4px rgba(174,136,64,.22)}
+.field.bad input,.field.bad select{border-color:#B3261E}
+.qerr{color:#B3261E;font-size:14px;font-weight:600;min-height:1.2em}
+.qform-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:auto}
+.qback{background:none;border:0;font-weight:700;cursor:pointer;padding:10px 0;color:var(--green)}
+.qdone{display:flex;flex-direction:column;gap:16px;justify-content:center;flex:1}
+.qdone .ok{width:64px;height:64px;border-radius:99px;background:var(--gold);display:grid;place-items:center}
+.qdone .ok svg{width:28px;height:28px;stroke:var(--white)}
+.qdone h3{font-size:clamp(26px,2.4vw,34px);color:var(--green)}
+.qdone ul{margin:0;padding:14px 16px;list-style:none;display:flex;flex-direction:column;gap:6px;color:var(--moss);background:var(--paper);border-radius:14px;font-size:15px}
+.qdone .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.qnote{font-size:13.5px;color:var(--muted)}
+
+/* footer */
+.site-footer{background:var(--ink);color:var(--white);padding:clamp(64px,8vw,96px) 0 32px;margin-top:clamp(80px,10vw,120px)}
+.ft-top{display:grid;grid-template-columns:minmax(0,340px) 1fr;gap:clamp(40px,6vw,96px)}
+.ft-brand{display:flex;flex-direction:column;gap:22px}
+.ft-brand img{height:92px;width:auto;align-self:flex-start}
+.ft-brand p{color:var(--on-dark);font-size:15px}
+.ft-cols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px;font-size:15px}
+.ft-cols h4{font-family:var(--body);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-soft);margin-bottom:14px}
+.ft-cols a,.ft-cols span{display:block;color:#E3EAE0;padding:3px 0}
+.ft-cols a:hover{color:var(--gold-soft)}
+.ft-big{display:block;font-family:var(--display);letter-spacing:-.03em;font-size:clamp(56px,13.4vw,210px);line-height:1;padding-bottom:.1em;color:var(--ink-2);margin-top:clamp(48px,6vw,80px);white-space:nowrap;overflow:hidden;user-select:none;transform-origin:left center}
+.ft-bot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--ink-line);padding-top:26px;margin-top:8px;font-size:13px;color:#94A898}
+@media (max-width:900px){.ft-top{grid-template-columns:1fr}.ft-cols{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* floating whatsapp */
+.wa{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:45;width:58px;height:58px;border-radius:50%;background:var(--gold);color:var(--white);display:grid;place-items:center;box-shadow:0 14px 30px -10px rgba(13,40,27,.55);transition:transform .35s var(--ease),background .35s}
+.wa:hover{transform:scale(1.07);background:var(--green)}
+.wa svg{width:27px;height:27px}
+
+.statement .word{transition:none}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<div class="loader" aria-hidden="true"><img src="assets/mark-light.png" alt=""></div>
+
+<header class="site-header">
+  <div class="hdr-wrap"><div class="hdr">
+    <a class="hdr-logo" href="#home" data-nav="home" aria-label="Wandering Bar home"><img src="assets/logo.png" alt="Wandering Bar" width="86" height="46"></a>
+    <nav class="hdr-nav" aria-label="Main">
+      <a href="#about" data-nav="about">About</a><a href="#bartender" data-nav="bartender">Bartender</a><a href="#services" data-nav="services">Services</a><a href="#cocktails" data-nav="cocktails">Cocktails</a><a href="#packages" data-nav="packages">Packages</a><a href="#gallery" data-nav="gallery">Gallery</a><a href="#contact" data-nav="contact">Contact</a>
+    </nav>
+    <span class="hdr-spacer"></span>
+    <a class="btn btn-ink btn-sm btn-quote" href="#contact" data-magnetic>Enquire now</a>
+    <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
+  </div></div>
+</header>
+
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+  <div class="menu-top"><a href="#home" aria-label="Home"><img src="assets/logo-light.png" alt="Wandering Bar"></a><button class="menu-close" type="button" aria-label="Close menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="menu-body">
+    <nav class="menu-nav" aria-label="Menu">
+      <div class="mi"><a href="#about"><span class="n">01</span><span class="t">About</span></a></div>
+      <div class="mi"><a href="#services"><span class="n">02</span><span class="t">Services</span></a></div>
+      <div class="mi"><a href="#cocktails"><span class="n">03</span><span class="t">Cocktails</span></a></div>
+      <div class="mi"><a href="#packages"><span class="n">04</span><span class="t">Packages</span></a></div>
+      <div class="mi"><a href="#contact"><span class="n">05</span><span class="t">Contact</span></a></div>
+    </nav>
+  </div>
+</div>
+
+<main>
+<!-- ================= HOME ================= -->
+<section class="hero" id="home" aria-label="Wandering Bar">
+  <div class="hero-pattern"></div>
+  <div class="hero-stage">
+    <div class="hero-circle"></div>
+    <div class="hero-l1">
+      <h1 class="hero-title">
+        <span style="display:block;overflow:hidden;padding-bottom:.1em"><span class="ln ln-1">Cocktails.</span></span>
+        <span style="display:block;overflow:hidden;padding-bottom:.1em"><span class="ln ln-1">Good Company.</span></span>
+        <span style="display:block;overflow:hidden;padding-bottom:.1em"><span class="ln ln-2">Unforgettable Events.</span></span>
+      </h1>
+    </div>
+    <div class="hero-mark-wrap"><div class="hero-mark"><img src="assets/mark.png" alt="Wandering Bar cocktail shaker emblem with olive branches"><img class="light" src="assets/mark-light.png" alt=""></div></div>
+    <div class="hero-bar"><div class="hero-bar-in">
+      <span class="scroll-cue"><i></i>Scroll to explore</span>
+      <span class="hero-tags"><span>Cocktails</span><span>Mocktails 0% Alc.</span><span>Any location</span></span>
+    </div></div>
+    <div class="hero-l2 on-dark">
+      <div class="hero-l2-in">
+        <div class="hero-l2-copy">
+          <div style="overflow:hidden"><span class="eyebrow" data-rise>Mobile cocktail bar · Cyprus</span></div>
+          <div style="overflow:hidden;padding-bottom:.1em"><h2 class="h-lg" data-rise>We bring the bar <span class="accent">to your event.</span></h2></div>
+          <div style="overflow:hidden"><p class="lede" data-rise>Wandering Bar is a mobile cocktail bar service based in Cyprus, created to bring professional bartending and quality cocktails directly to your event.</p></div>
+          <div style="overflow:hidden;padding:6px"><div class="hero-ctas" data-rise><a class="btn btn-gold" href="#contact" data-magnetic>Enquire now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn-line" href="#cocktails">View cocktails</a></div></div>
+        </div>
+      </div>
+      <div class="hero-chip c1"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6l-.6 3H9.6z"/><path d="M8.5 7.5C8.5 6 10 5 12 5s3.5 1 3.5 2.5L15 20a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 20z"/></svg></span><div><b>10 years behind the bar</b>London &amp; Cyprus</div></div>
+      <div class="hero-chip c2"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><div><b>Any location in Cyprus</b>Home, beach, villa or venue</div></div>
+    </div>
+  </div>
+</section>
+<nav class="hero-segs" aria-label="Events we serve"><div class="wrap">
+  <a href="#services">Private parties <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
+  <a href="#services">Weddings &amp; engagements <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
+  <a href="#services">Corporate events <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
+  <a href="#services">Special events <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
+</div></nav>
+
+<!-- ================= ABOUT ================= -->
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="intro-grid">
+      <span class="eyebrow" style="padding-top:14px;align-self:start">About</span>
+      <h2 class="statement" data-scrub-words>Your bar. Wherever you celebrate. Wandering Bar brings professional bartending and quality cocktails directly to private events and celebrations across Cyprus.</h2>
+    </div>
+    <div class="intro-media">
+      <div class="intro-img"><img src="assets/table-drinks.jpg" alt="A mojito and two cocktails served on a table at a private event" data-parallax="6"></div>
+      <div class="copy" data-fade>
+        <p class="lede">Whether you're celebrating at home, by the sea, at a wedding venue or at a corporate event, we bring the bar experience to you.</p>
+        <p class="goal">Our goal is simple: <span class="accent">great cocktails</span>, professional service and an experience your guests will remember.</p>
+        <a class="link-u" href="#bartender" style="align-self:flex-start">Meet your bartender <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </div>
+    <div class="pillars" data-stagger>
+      <div class="pillar"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6l-.6 3H9.6z"/><path d="M8.5 7.5C8.5 6 10 5 12 5s3.5 1 3.5 2.5L15 20a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 20z"/><path d="M8.8 11h6.4"/></svg></span><div><h3>Professional bartender</h3><p>Ten years of hotel, bar and members' club service behind every drink.</p></div></div>
+      <div class="pillar"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 5h14v11H1zM15 9h4l4 4v3h-8z"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="18.5" cy="18.5" r="2"/></svg></span><div><h3>Mobile bar setup</h3><p>The full bar arrives set up at your home, villa, beach or venue.</p></div></div>
+      <div class="pillar"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="7.5"/><circle cx="10" cy="14" r="4.5"/><path d="M10 9.5v9M5.5 14h9"/><path d="M15 5c1.4-2.6 4.6-3.2 6-2.6-.7 2-2.8 4-6 2.6z"/></svg></span><div><h3>Fresh ingredients &amp; garnishes</h3><p>Fresh citrus, herbs and fruit, prepared for your event on the day.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MEET YOUR BARTENDER ================= -->
+<section class="section" id="bartender" style="padding-top:0">
+  <div class="wrap bt-grid">
+    <div class="bt-photo"><img src="assets/shake-copper.jpg" alt="Andrew Papaloucas shaking a cocktail in a copper shaker" data-parallax="5"><span class="tag">Founder · Wandering Bar</span></div>
+    <div>
+      <span class="eyebrow">Meet your bartender</span>
+      <h2 class="bt-name" data-split style="margin-top:18px">Andrew Papaloucas</h2>
+      <p class="bt-role">Founder &amp; Professional Bartender</p>
+      <div class="years" data-fade><strong><span id="yrs">10</span></strong><span>Years of hospitality &amp; bartending experience</span></div>
+      <div class="bt-body" data-fade>
+        <p class="lede">With 10 years of experience across London and Cyprus, I have worked in luxury hotels, high-volume bars, restaurants and private members' clubs, developing extensive experience in professional bartending and event service.</p>
+        <p class="lede">Throughout my career, I have progressed to Head Bartender and F&amp;B Supervisor/Bar Manager, developing extensive experience in cocktail preparation, premium bar service, beverage operations, stock control and team leadership.</p>
+      </div>
+      <div class="roles" data-fade><span>Head Bartender</span><span>F&amp;B Supervisor</span><span>Bar Manager</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="adv on-dark" aria-label="Career">
+  <div class="wrap adv-grid">
+    <div class="adv-media">
+      <span class="adv-count">01 / 04</span>
+      <svg class="adv-map" viewBox="0 0 600 750" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Map of Andrew's route from London to Cyprus, about 3,200 km">
+        <defs>
+          <radialGradient id="mapFade" cx="52%" cy="52%" r="62%"><stop offset="0" stop-color="#fff"/><stop offset=".62" stop-color="#fff" stop-opacity=".85"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+          <mask id="mapMask"><rect width="600" height="750" fill="url(#mapFade)"/></mask>
+          <linearGradient id="routeGrad" x1="150" y1="287.7" x2="470" y2="502.3" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#E4CF9C"/><stop offset="1" stop-color="#C4A160"/></linearGradient>
+        </defs>
+        <g mask="url(#mapMask)">
+          <path class="map-land" d="M4 4h7M67 4h0M501 4h0M515 4h84M480 11h0M494 11h105M452 18h7M480 18h119M333 25h7M452 25h0M473 25h126M319 32h7M340 32h14M466 32h133M312 39h35M368 39h0M431 39h7M466 39h133M67 46h0M298 46h70M382 46h7M438 46h7M459 46h140M60 53h7M291 53h0M305 53h105M438 53h0M459 53h140M53 60h0M67 60h21M102 60h0M298 60h119M445 60h154M60 67h42M298 67h126M445 67h154M53 74h49M284 74h133M438 74h161M67 81h42M277 81h98M389 81h28M431 81h168M67 88h35M277 88h112M424 88h175M270 95h119M431 95h168M270 102h119M410 102h189M263 109h49M340 109h56M424 109h175M263 116h49M340 116h259M256 123h56M333 123h266M249 130h63M333 130h266M242 137h0M256 137h49M326 137h273M228 144h70M319 144h280M221 151h70M319 151h280M214 158h77M319 158h280M214 165h77M326 165h273M214 172h77M326 172h35M375 172h224M214 179h77M326 179h21M382 179h217M214 186h84M333 186h0M368 186h231M214 193h84M347 193h252M214 200h21M256 200h35M333 200h266M221 207h7M256 207h28M333 207h0M347 207h252M256 214h28M347 214h252M242 221h0M256 221h28M326 221h7M347 221h252M102 228h0M228 228h7M263 228h21M326 228h273M81 235h14M228 235h14M263 235h21M326 235h273M81 242h21M228 242h7M256 242h14M326 242h273M88 249h21M228 249h35M326 249h273M81 256h21M228 256h7M249 256h0M319 256h280M74 263h28M235 263h7M256 263h7M291 263h308M214 270h0M228 270h35M277 270h322M193 277h406M193 284h406M186 291h413M172 298h413M165 305h413M151 312h427M109 319h7M137 319h434M109 326h455M599 326h0M116 333h364M494 333h70M130 340h336M487 340h77M123 347h336M487 347h91M130 354h287M431 354h21M487 354h91M130 361h287M445 361h140M130 368h273M445 368h14M501 368h98M46 375h14M130 375h280M452 375h0M515 375h84M46 382h35M123 382h119M263 382h140M536 382h63M46 389h56M123 389h126M277 389h126M536 389h63M46 396h161M228 396h21M277 396h126M536 396h63M46 403h112M179 403h14M235 403h14M284 403h112M529 403h70M39 410h112M235 410h21M291 410h105M459 410h21M515 410h84M39 417h119M214 417h0M235 417h28M305 417h91M445 417h154M32 424h112M214 424h0M242 424h21M312 424h91M438 424h161M25 431h105M214 431h0M249 431h35M326 431h273M32 438h84M214 438h0M263 438h21M319 438h49M389 438h7M417 438h182M32 445h84M207 445h14M263 445h35M319 445h42M389 445h210M25 452h91M151 452h0M207 452h7M277 452h14M305 452h0M326 452h21M389 452h210M46 459h63M207 459h7M284 459h0M333 459h21M396 459h203M46 466h56M291 466h0M333 466h28M403 466h196M53 473h0M81 473h7M284 473h0M340 473h21M403 473h84M501 473h98M53 480h0M249 480h7M270 480h14M340 480h14M368 480h0M403 480h70M501 480h98M46 487h7M144 487h0M256 487h14M347 487h7M417 487h21M466 487h0M501 487h98M39 494h35M102 494h126M270 494h0M347 494h7M375 494h0M508 494h91M25 501h196M508 501h91M4 508h217M508 508h91M4 515h224M382 515h7M501 515h98M4 522h217M501 522h98M4 529h210M501 529h98M4 536h210M501 536h98M4 543h224M501 543h98M4 550h231M347 550h14M494 550h105M4 557h266M333 557h42M452 557h147M4 564h266M333 564h84M445 564h154M4 571h273M333 571h140M487 571h112M4 578h301M333 578h168M515 578h84M4 585h308M326 585h154M494 585h7M515 585h84M4 592h483M501 592h0M522 592h77M4 599h490M529 599h70M4 606h497M536 606h63M4 613h497M543 613h56M4 620h504M550 620h49M4 627h511M557 627h42M4 634h518M571 634h28M4 641h525M578 641h21M4 648h525M585 648h14M4 655h532M592 655h7M4 662h546M592 662h7M4 669h553M592 669h7M4 676h560M599 676h0M4 683h560M4 690h560M4 697h567M4 704h567M4 711h581M4 718h588M4 725h595M4 732h595M4 739h595M4 746h595"/>
+          <path class="map-uk" d="M137 193h7M123 200h14M130 207h21M130 214h14M123 221h21M109 228h0M130 228h14M102 235h42M109 242h0M137 242h7M137 249h14M123 256h0M137 256h14M123 263h28M123 270h28M116 277h49M130 284h28M116 291h35M151 298h0"/>
+          <circle class="map-halo" cx="474" cy="499" r="20"/><path class="map-cy" d="M480.5,498.4L480.1,498.6L479.4,498.4L478.9,498.3L478.6,498.8L478.3,499.1L477.9,499.3L477.6,499.4L477.1,499.8L476.4,499.9L475.4,499.9L475,500.5L474.9,500.5L474.5,499.2L474,498.8L473.5,498.6L473,498.8L472.1,499L471.4,498.9L470.3,499.5L469.4,500.1L468.8,500.7L468.2,500.8L467.2,500.6L466.4,500.3L466.3,500L467,500L468.1,499.5L468.3,498.1L468.1,496.6L470.2,496.6L472.2,496.4L473.9,496.1L475.4,495.5L479.9,492.9L481.1,491.6L481.9,491.1L483.2,490L484.6,489.2L483.8,490.3L479.2,495.5L479.1,496.8L479.5,497.6ZM466.3,500L466.4,500.3L467.2,500.6L468.2,500.8L468.8,500.7L469.4,500.1L470.3,499.5L471.4,498.9L472.1,499L473,498.8L473.5,498.6L474,498.8L474.5,499.2L474.9,500.5L475,500.5L475.4,499.9L476.4,499.9L477.1,499.8L477.6,499.4L477.9,499.3L478.3,499.1L478.6,498.8L478.9,498.3L479.4,498.4L480.1,498.6L480.5,498.4L480.8,498.6L481.2,499.3L480,499.8L478.9,500.1L478.1,500.2L477.5,500.4L476,503L475.1,504L473.9,504.7L472.6,505.2L472,505.4L471.4,505.8L471.2,506.4L471.3,506.9L471.2,507.3L470.4,507.4L469.9,506.6L469.4,506.4L468.2,506.9L467.5,507L465.3,506.6L464.6,506.5L464.1,505.9L462.6,503.8L462.1,502.1L463.1,502.3L463.9,501.6L464.6,500.6L465.6,500Z"/>
+        </g>
+        <path class="map-route-bg" d="M150 287.7Q378.7 292.6 470 502.3"/>
+        <path class="map-route" d="M150 287.7Q378.7 292.6 470 502.3"/>
+        <g class="map-chip" transform="translate(363 316)"><rect x="-44" y="-15" width="88" height="30" rx="15"/><text y="1">≈ 3,200 km</text></g>
+        <g class="map-pin map-pin-l is-on" transform="translate(150 287.7)"><circle class="ring" r="7"/><circle class="dot" r="5.5"/></g>
+        <g class="map-pin map-pin-c" transform="translate(470 502.3)"><circle class="ring" r="7"/><circle class="dot" r="3.6"/></g>
+        <g class="map-label map-label-l is-on" transform="translate(138 162)"><text class="t">London</text><text class="s" y="20">Where it started</text></g>
+        <g class="map-label map-label-c" transform="translate(484 548.3)" text-anchor="end"><text class="t">Cyprus</text><text class="s" y="20">Where we pour today</text></g>
+        <g class="map-plane" transform="translate(470 502.3)"><path transform="scale(1.35)" d="M11 0c0-1-1-1.6-2.2-1.6H3.4L-2.6-9h-2.6l3.2 7.4h-5.2l-2.2-2.9h-1.9l1.3 4.5-1.3 4.5h1.9l2.2-2.9H-2L-5.2 9h2.6l6-7.4h5.4C10 1.6 11 1 11 0z"/></g>
+      </svg>
+    </div>
+    <div>
+      <span class="eyebrow">Career</span>
+      <h2 class="h-md" data-split style="margin-top:16px">From London <span class="accent">to Cyprus.</span></h2>
+      <div class="adv-list">
+        <div class="adv-bar"><i></i></div>
+        <div class="adv-items">
+          <div class="adv-item is-on"><h3><span>01</span>London's luxury hotels</h3><p><span class="venues">The Waldorf Hilton · Hilton London Canary Wharf</span>Premium hotel bar service, alongside the Hilton Lead 1.1 and 2.1 leadership programs.</p></div>
+          <div class="adv-item"><h3><span>02</span>Bars &amp; members' clubs</h3><p><span class="venues">Pavilion Club · The Hercules Pub</span>High-volume bars and private members' club service in London.</p></div>
+          <div class="adv-item"><h3><span>03</span>Hospitality in Cyprus</h3><p><span class="venues">Pegasus Bar &amp; Grill · Pit Stop Pub</span>Bringing London experience home to Cyprus's bars and restaurants.</p></div>
+          <div class="adv-item"><h3><span>04</span>Wandering Bar</h3><p><span class="venues">Founder · Across Cyprus</span>Professional mobile cocktail bar service for private parties, weddings, corporate events and special celebrations.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap quals-grid">
+    <div class="quals" data-fade>
+      <h3>Professional qualifications</h3>
+      <ul>
+        <li>BarSmarts — Basic &amp; Professional Bartender <small>Bartending</small></li>
+        <li>European Bartender School in London — Mixology Course <small>Mixology</small></li>
+        <li>WSET Level 1 Award in Wines <small>Wine</small></li>
+        <li>Hilton Lead 1.1 Program <small>Leadership</small></li>
+        <li>Hilton Lead 2.1 Program — Harvard Virtual Leadership Series <small>Leadership</small></li>
+      </ul>
+    </div>
+    <div class="ltc" data-fade>
+      <img class="bgmark" src="assets/mark-light.png" alt="">
+      <div>
+        <h3>From London to Cyprus</h3>
+        <p style="margin-top:16px">Today, I bring my experience behind the bar to Wandering Bar, providing professional mobile cocktail bar service for private parties, weddings, corporate events and special celebrations across Cyprus.</p>
+      </div>
+      <p class="sign">Professional experience. Wherever you celebrate.</p>
+    </div>
+  </div>
+</section>
+
+<section class="action" aria-label="Meet Andrew video">
+  <div class="action-card on-dark" id="actionCard">
+    <video id="introVideo" src="assets/intro.mp4" poster="assets/intro.jpg" muted loop playsinline autoplay preload="metadata"></video>
+    <div class="shade"></div>
+    <span class="action-note">Meet Andrew · with sound</span>
+    <button class="vid-close" id="vidClose" type="button" hidden>Close video</button>
+    <div class="action-in">
+      <h2 class="h-lg" data-split>Meet Andrew, <span class="accent">your bartender.</span></h2>
+      <button class="play" id="playBtn" type="button" aria-label="Play Andrew's introduction video with sound" data-magnetic><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Services</span><h2 class="h-lg" data-split>A bar for every celebration.</h2></div>
+      <p class="lede">From a garden birthday to a wedding reception, the bar arrives set up and run by a professional bartender.</p>
+    </div>
+    <div class="cards" data-stagger>
+      <a class="card" href="#contact" data-type="Private party">
+        <div class="card-media"><span class="card-num">01</span><svg viewBox="0 0 64 64" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12h40L32 36z"/><path d="M32 36v18M22 55h20M18 18h28"/><circle cx="46" cy="10" r="5"/></svg></div>
+        <div class="card-body"><div class="card-row"><h3>Private Parties</h3><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div><p>Birthdays, house parties, garden parties and celebrations.</p></div>
+      </a>
+      <a class="card" href="#contact" data-type="Wedding or engagement">
+        <div class="card-media"><span class="card-num">02</span><svg viewBox="0 0 64 64" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="38" r="14"/><circle cx="40" cy="38" r="14"/><path d="M19 18l5-7 5 7-5 5z"/></svg></div>
+        <div class="card-body"><div class="card-row"><h3>Weddings &amp; Engagements</h3><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div><p>Cocktails and professional bar service for your special day.</p></div>
+      </a>
+      <a class="card" href="#contact" data-type="Corporate event">
+        <div class="card-media"><span class="card-num">03</span><svg viewBox="0 0 64 64" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 56V16l20-8v48M32 22h20v34M6 56h52"/><path d="M18 22h7M18 30h7M18 38h7M18 46h7M39 30h7M39 38h7M39 46h7"/></svg></div>
+        <div class="card-body"><div class="card-row"><h3>Corporate Events</h3><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div><p>Professional drinks service for corporate functions, launches and company celebrations.</p></div>
+      </a>
+      <a class="card" href="#contact" data-type="Special event">
+        <div class="card-media"><span class="card-num">04</span><svg viewBox="0 0 64 64" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M30 6l4.5 16L50 26l-15.5 4.5L30 46l-4.5-15.5L10 26l15.5-4z"/><path d="M50 42l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg></div>
+        <div class="card-body"><div class="card-row"><h3>Special Events</h3><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div><p>Engagements, anniversaries, gender reveal parties and other occasions.</p></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COCKTAILS ================= -->
+<section class="section" id="cocktails" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Our cocktails</span><h2 class="h-lg" data-split>Classics, <span class="accent">carefully made.</span></h2></div>
+      <p class="lede">Classic cocktails, carefully prepared and served by a professional bartender.</p>
+    </div>
+    <div class="ck-grid">
+      <div class="ck-media"><div class="ck-img"><img src="assets/andrew-martini.jpg" alt="Andrew Papaloucas presenting a martini behind the bar" data-parallax="6"><span class="tag">Shaken fresh at your event</span></div></div>
+      <div>
+        <div class="menu-card" data-fade>
+          <h3>Classics</h3>
+          <ul>
+            <li class="drink"><span class="dot" style="--c:#E0AE4C"></span><div><h4>Amaretto Sour</h4><p class="ing">Amaretto · Fresh Lemon · Angostura Bitters · Foamer</p></div></li>
+            <li class="drink"><span class="dot" style="--c:#EDA53C"></span><div><h4>Pornstar Martini</h4><p class="ing">Vodka · Passion Fruit · Vanilla · Pineapple · Lemon</p></div></li>
+            <li class="drink"><span class="dot" style="--c:#B3302A"></span><div><h4>Negroni</h4><p class="ing">Gin · Campari · Sweet Vermouth</p></div></li>
+            <li class="drink"><span class="dot" style="--c:#7DB552"></span><div><h4>Mojito</h4><p class="ing">White Rum · Fresh Lime · Mint · Soda</p></div></li>
+            <li class="drink"><span class="dot" style="--c:#EC9580"></span><div><h4>Paloma</h4><p class="ing">Tequila · Grapefruit · Fresh Lime</p></div></li>
+            <li class="drink"><span class="dot" style="--c:#86391D"></span><div><h4>Manhattan</h4><p class="ing">Whiskey · Vermouth · Angostura Bitters</p></div></li>
+          </ul>
+        </div>
+        <div class="menu-card" data-fade>
+          <h3>Mocktails 0% Alc.</h3>
+          <ul>
+            <li class="drink"><span class="dot" style="--c:#9FCB70"></span><div><h4>Nojito</h4><p class="ing">Fresh Lime · Mint · Soda</p></div><span class="zero">0%</span></li>
+            <li class="drink"><span class="dot" style="--c:#E39E35"></span><div><h4>Cyprus Passion</h4><p class="ing">Passion Fruit · Lemon · Soda</p></div><span class="zero">0%</span></li>
+          </ul>
+        </div>
+        <div class="fav" data-fade>
+          <img class="bgmark" src="assets/mark-light.png" alt="">
+          <div><h4>Don't see your favourite cocktail?</h4><p>Let us know what you'd like and we'll discuss your requirements.</p></div>
+          <a class="btn btn-gold btn-sm" href="#contact" data-magnetic>Ask for it <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PACKAGES ================= -->
+<section class="section" id="packages" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Packages</span><h2 class="h-lg" data-split>Choose how you'd like to celebrate.</h2></div>
+      <p class="lede">Every package is quoted around your date, location and number of guests.</p>
+    </div>
+    <div class="cards c3" data-stagger>
+      <article class="card pk">
+        <span class="tag">Smaller gatherings</span>
+        <h3>The Classic</h3>
+        <p class="for">House parties, birthdays and garden celebrations.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Mobile bar setup at your location</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Professional bartender</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>A selection of classic cocktails</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Fresh ingredients &amp; garnishes</li>
+        </ul>
+        <div class="quote"><small>Quote on request</small><a class="btn btn-line btn-sm" href="#contact" data-pkg="The Classic">Enquire</a></div>
+      </article>
+      <article class="card pk feat">
+        <img class="bgmark" src="assets/mark-light.png" alt="">
+        <span class="tag">Most requested</span>
+        <h3>The Signature</h3>
+        <p class="for">Villa parties, engagements and larger private events.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Everything in The Classic</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>The full cocktail menu</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Mocktails 0% Alc. for every guest</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Your favourite cocktail on request</li>
+        </ul>
+        <div class="quote"><small>Quote on request</small><a class="btn btn-gold btn-sm" href="#contact" data-pkg="The Signature">Enquire</a></div>
+      </article>
+      <article class="card pk">
+        <span class="tag">Weddings &amp; corporate</span>
+        <h3>The Bespoke</h3>
+        <p class="for">Weddings, company celebrations and launches.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Everything in The Signature</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Service timed to your schedule</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Any location across Cyprus</li>
+        </ul>
+        <div class="quote"><small>Quote on request</small><a class="btn btn-line btn-sm" href="#contact" data-pkg="The Bespoke">Enquire</a></div>
+      </article>
+    </div>
+    <div class="fav" data-fade style="margin-top:36px">
+      <img class="bgmark" src="assets/mark-light.png" alt="">
+      <div><h4>Booking &amp; deposit</h4><p>A 50% booking deposit is required to secure your event date, with the remaining 50% due 7 days before the event.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GALLERY ================= -->
+<section class="section" id="gallery" data-gallery style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Gallery</span><h2 class="h-lg" data-split>Behind the bar.</h2></div>
+      <div class="gal-nav"><span class="gal-count"><b>01</b> <span>/ 08</span></span>
+        <span class="gal-hint">Scroll<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+    </div>
+  </div>
+  <div class="gal-pin" id="galPin">
+  <div class="gal-track" id="galTrack">
+    <figure class="gal-slide p"><img src="assets/serve.jpg" alt="A cocktail served across the bar" loading="lazy" draggable="false"></figure>
+    <figure class="gal-slide v"><video src="assets/clip1.mp4" poster="assets/clip1.jpg" muted loop playsinline preload="none" aria-label="Finishing a pink martini"></video></figure>
+    <figure class="gal-slide p"><img src="assets/shake.jpg" alt="Andrew shaking a cocktail" loading="lazy" draggable="false"></figure>
+    <figure class="gal-slide v"><video src="assets/clip2.mp4" poster="assets/clip2.jpg" muted loop playsinline preload="none" aria-label="Flair bartending with a shaker"></video></figure>
+    <figure class="gal-slide p"><img src="assets/andrew-martini.jpg" alt="Andrew presenting a martini" loading="lazy" draggable="false"></figure>
+    <figure class="gal-slide v"><video src="assets/clip3.mp4" poster="assets/clip3.jpg" muted loop playsinline preload="none" aria-label="Pouring a cocktail at the bar"></video></figure>
+    <figure class="gal-slide p"><img src="assets/flair.jpg" alt="Flair bartending" loading="lazy" draggable="false"></figure>
+    <figure class="gal-slide p"><img src="assets/table-drinks.jpg" alt="A mojito and two cocktails served on a table" loading="lazy" draggable="false"></figure>
+    <figure class="gal-slide p"><img src="assets/negroni-hand.jpg" alt="Serving a Negroni with a grapefruit garnish" loading="lazy" draggable="false"></figure>
+    <figure class="gal-slide p"><img src="assets/monkey-cup.jpg" alt="A garnished cocktail served in a cup" loading="lazy" draggable="false"></figure>
+    <figure class="gal-slide p"><img src="assets/pink-martini.jpg" alt="A pink cocktail garnished with an edible flower" loading="lazy" draggable="false"></figure>
+  </div>
+  </div>
+  <div class="wrap"><div class="gal-bar"><i></i></div></div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="section" id="contact" style="padding-top:0">
+  <div class="wrap">
+    <div class="quote-box">
+      <img class="bgmark" src="assets/mark-light.png" alt="">
+      <div class="quote-copy">
+        <span class="eyebrow">Contact</span>
+        <h2 class="h-lg" data-split>Want Wandering Bar at your event?</h2>
+        <p class="lede">Answer four quick questions and your enquiry goes straight to Andrew on WhatsApp.</p>
+        <div class="details">
+          <div class="det"><div><small>WhatsApp / Call</small><a class="v" href="https://wa.me/35796399441" target="_blank" rel="noopener">+357 96 399 441</a></div></div>
+          <div class="det"><div><small>WhatsApp / Call</small><a class="v" href="https://wa.me/35797698946" target="_blank" rel="noopener">+357 97 698 946</a></div></div>
+          <div class="det"><div><small>Email</small><a class="v" href="mailto:info@wanderingbarcy.com">info@wanderingbarcy.com</a></div></div>
+          <div class="det"><div><small>Address</small><a class="v" href="https://www.google.com/maps/search/?api=1&amp;query=Tombs+of+the+Kings+Avenue+24,+Kato+Paphos+8046,+Cyprus" target="_blank" rel="noopener">Tombs of the Kings Avenue 24, Kato Paphos 8046</a></div></div>
+        </div>
+        <p class="sign">Let's bring the bar to you</p>
+      </div>
+
+      <form class="qform" id="qform" novalidate>
+        <div class="qform-top"><span class="s">Step 1 of 4</span><span class="l">Event · Guests · Date · Details</span></div>
+        <div class="qprog"><i></i></div>
+        <fieldset class="qstep" data-step="type">
+          <legend class="sr-only">What are you celebrating?</legend>
+          <h3>What are you celebrating?</h3>
+          <div class="tiles">
+            <label class="tile"><input type="radio" name="type" value="Private party">Private party</label>
+            <label class="tile"><input type="radio" name="type" value="Wedding or engagement">Wedding or engagement</label>
+            <label class="tile"><input type="radio" name="type" value="Corporate event">Corporate event</label>
+            <label class="tile"><input type="radio" name="type" value="Special event">Special event</label>
+          </div>
+        </fieldset>
+        <fieldset class="qstep" data-step="guests" hidden>
+          <legend class="sr-only">Guests and package</legend>
+          <h3>How many guests?</h3>
+          <div class="counter"><b>Guests (approx.)</b><div class="ctl"><button type="button" class="minus" aria-label="Fewer guests">−</button><output id="guestsOut">40</output><button type="button" class="plus" aria-label="More guests">+</button></div><input type="hidden" name="guests" id="guests" value="40"></div>
+          <p class="sub">Package</p>
+          <div class="tiles">
+            <label class="tile"><input type="radio" name="pkg" value="The Classic">The Classic</label>
+            <label class="tile"><input type="radio" name="pkg" value="The Signature">The Signature</label>
+            <label class="tile"><input type="radio" name="pkg" value="The Bespoke">The Bespoke</label>
+            <label class="tile"><input type="radio" name="pkg" value="Not sure yet" checked>Not sure yet</label>
+          </div>
+        </fieldset>
+        <fieldset class="qstep" data-step="when" hidden>
+          <legend class="sr-only">When and where</legend>
+          <h3>When and where?</h3>
+          <div class="fields">
+            <label class="field" for="q-date">Event date<input id="q-date" name="date" type="date" required></label>
+            <label class="field" for="q-area">District<select id="q-area" name="area" required><option value="">Choose a district</option><option>Paphos</option><option>Limassol</option><option>Larnaca</option><option>Nicosia</option><option>Famagusta</option><option>Other</option></select></label>
+            <label class="field full" for="q-venue">Venue or location (optional)<input id="q-venue" name="venue" placeholder="Home, villa, beach, hotel…"></label>
+          </div>
+        </fieldset>
+        <fieldset class="qstep" data-step="details" hidden>
+          <legend class="sr-only">Your details</legend>
+          <h3>Where should Andrew reply?</h3>
+          <div class="fields">
+            <label class="field" for="q-name">Your name<input id="q-name" name="name" autocomplete="name" required></label>
+            <label class="field" for="q-phone">Phone<input id="q-phone" name="phone" type="tel" autocomplete="tel" required placeholder="+357"></label>
+            <label class="field full" for="q-notes">Favourite cocktails or anything else (optional)<textarea id="q-notes" name="notes" placeholder="Cocktails you'd love, timings, special requests"></textarea></label>
+          </div>
+        </fieldset>
+        <div class="qdone" hidden>
+          <span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+          <h3>Thanks, <span class="who"></span>. Your enquiry is ready.</h3>
+          <ul></ul>
+          <div class="row"><a class="btn btn-gold" id="waSend" href="https://wa.me/35796399441" target="_blank" rel="noopener">Send on WhatsApp <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><button type="button" class="qback qagain">Start again</button></div>
+          <p class="qnote">WhatsApp opens with your details filled in. Press send and Andrew will reply with a quote.</p>
+        </div>
+        <p class="qerr" role="alert"></p>
+        <div class="qform-foot">
+          <button type="button" class="qback" id="qback">← Back</button>
+          <button type="submit" class="btn btn-ink qnext" data-magnetic>Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer on-dark">
+  <div class="wrap">
+    <div class="ft-top">
+      <div class="ft-brand"><img src="assets/logo-light.png" alt="Wandering Bar"><p>Mobile cocktail bar for private events across Cyprus. Cocktails. Good Company. Unforgettable Events.</p>
+        <a class="btn btn-gold btn-sm" href="#contact" style="align-self:flex-start">Enquire now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+      <div class="ft-cols">
+        <div><h4>Explore</h4><a href="#home">Home</a><a href="#about">About</a><a href="#bartender">Meet Your Bartender</a><a href="#services">Services</a></div>
+        <div><h4>More</h4><a href="#cocktails">Cocktails</a><a href="#packages">Packages</a><a href="#gallery">Gallery</a><a href="#contact">Contact</a></div>
+        <div><h4>Services</h4><span>Private parties</span><span>Weddings &amp; engagements</span><span>Corporate events</span><span>Special events</span></div>
+        <div><h4>Contact</h4><a href="https://wa.me/35796399441" target="_blank" rel="noopener" style="font-weight:700;color:#fff">+357 96 399 441</a><a href="https://wa.me/35797698946" target="_blank" rel="noopener">+357 97 698 946</a><span>info@wanderingbarcy.com</span><span>Tombs of the Kings Ave 24, Kato Paphos 8046</span></div>
+      </div>
+    </div>
+    <div class="ft-big" aria-hidden="true">Wandering Bar</div>
+    <div class="ft-bot"><span>© 2026 Wandering Bar. All rights reserved.</span><span>Website by DigitalSEOs</span></div>
+  </div>
+</footer>
+
+<a class="wa" href="https://wa.me/35796399441" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.7 11.7 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.5-.3z"/></svg></a>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+<script>
+(() => {
+  const html = document.documentElement;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasGsap = !!(window.gsap && window.ScrollTrigger);
+  const motion = hasGsap && !reduce;
+  html.classList.toggle('motion', motion);
+  if (hasGsap) {
+    gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.config({ ignoreMobileResize: true });
+    if (window.SplitText) gsap.registerPlugin(SplitText);
+    gsap.defaults({ ease: 'power3.out', duration: 1 });
+  }
+  const header = document.querySelector('.site-header');
+  const headH = () => header.offsetHeight;
+
+  /* ---------- smooth scroll ---------- */
+  let lenis = null;
+  if (motion && window.Lenis) {
+    try {
+      lenis = new Lenis({ lerp: 0.1 });
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add((t) => lenis.raf(t * 1000));
+      gsap.ticker.lagSmoothing(0);
+    } catch (e) { lenis = null; }
+  }
+  const scrollToEl = (el) => {
+    const y = el.id === 'home' ? 0 : el.getBoundingClientRect().top + window.scrollY - headH() + 2;
+    if (lenis) lenis.scrollTo(y, { duration: 1.4 });
+    else window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+  };
+
+  /* ---------- anchors ---------- */
+  const form = document.getElementById('qform');
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const id = a.getAttribute('href').slice(1);
+    const el = id && document.getElementById(id);
+    if (!el) return;
+    e.preventDefault();
+    if (a.dataset.pkg) preset('pkg', a.dataset.pkg);
+    const card = a.closest('[data-type]'); if (card) preset('type', card.dataset.type);
+    closeMenu();
+    if (document.activeElement) document.activeElement.blur();
+    scrollToEl(el);
+  });
+  function preset(name, val) {
+    const r = form.querySelector('input[name="' + name + '"][value="' + val + '"]');
+    if (r) r.checked = true;
+  }
+
+  /* ---------- header solid + active link ---------- */
+  const navLinks = [...document.querySelectorAll('[data-nav]')];
+  const ids = navLinks.map((a) => a.dataset.nav);
+  const onScroll = () => {
+    const y = window.scrollY;
+    header.classList.toggle('is-solid', y > 30);
+    let cur = 'home';
+    const probe = y + headH() + window.innerHeight * 0.3;
+    ids.forEach((id) => { const s = document.getElementById(id); if (s && s.getBoundingClientRect().top + y <= probe) cur = id; });
+    navLinks.forEach((l) => l.setAttribute('aria-current', l.dataset.nav === cur));
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  /* ---------- fullscreen menu ---------- */
+  const menu = document.querySelector('.menu');
+  const menuBtn = document.querySelector('.menu-btn');
+  const menuClose = document.querySelector('.menu-close');
+  let menuOpen = false, menuTl = null;
+  function openMenu() {
+    if (menuOpen) return; menuOpen = true;
+    menu.hidden = false; menuBtn.setAttribute('aria-expanded', 'true');
+    lenis && lenis.stop();
+    menu.classList.add('is-open');
+    if (motion) {
+      menuTl && menuTl.kill();
+      menuTl = gsap.timeline()
+        .fromTo(menu, { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 0.8, ease: 'expo.inOut' })
+        .from(menu.querySelectorAll('.menu-nav .t'), { yPercent: 110, duration: 0.9, stagger: 0.05, ease: 'expo.out' }, '-=0.35')
+        .from(menu.querySelectorAll('.menu-nav .n, .subs, .menu-side > *, .menu-foot'), { opacity: 0, y: 20, stagger: 0.04, duration: 0.6 }, '-=0.7');
+    }
+    menuClose.focus();
+  }
+  function closeMenu() {
+    if (!menuOpen) return; menuOpen = false;
+    menuBtn.setAttribute('aria-expanded', 'false');
+    lenis && lenis.start();
+    const done = () => { menu.classList.remove('is-open'); menu.hidden = true; hasGsap && gsap.set(menu, { clearProps: 'clipPath' }); };
+    if (motion) { menuTl && menuTl.kill(); gsap.to(menu, { clipPath: 'inset(0 0 100% 0)', duration: 0.7, ease: 'expo.inOut', onComplete: done }); }
+    else done();
+  }
+  menuBtn.addEventListener('click', openMenu);
+  menuClose.addEventListener('click', closeMenu);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && menuOpen) closeMenu(); });
+
+  /* ---------- magnetic buttons ---------- */
+  if (motion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.querySelectorAll('[data-magnetic]').forEach((el) => {
+      const xTo = gsap.quickTo(el, 'x', { duration: 0.5, ease: 'power3' });
+      const yTo = gsap.quickTo(el, 'y', { duration: 0.5, ease: 'power3' });
+      el.addEventListener('mousemove', (e) => {
+        const r = el.getBoundingClientRect();
+        xTo((e.clientX - r.left - r.width / 2) * 0.28);
+        yTo((e.clientY - r.top - r.height / 2) * 0.35);
+      });
+      el.addEventListener('mouseleave', () => { xTo(0); yTo(0); });
+    });
+  }
+
+  /* ---------- intro video card ---------- */
+  const card = document.getElementById('actionCard');
+  const vid = document.getElementById('introVideo');
+  const playBtn = document.getElementById('playBtn');
+  const vidClose = document.getElementById('vidClose');
+  playBtn.addEventListener('click', () => {
+    vid.currentTime = 0; vid.muted = false; vid.loop = false; vid.controls = true;
+    vid.play().catch(() => {});
+    card.classList.add('playing'); vidClose.hidden = false;
+  });
+  const stopVid = () => {
+    vid.muted = true; vid.loop = true; vid.controls = false;
+    card.classList.remove('playing'); vidClose.hidden = true; vid.play().catch(() => {});
+  };
+  vidClose.addEventListener('click', stopVid);
+  vid.addEventListener('ended', stopVid);
+
+  /* ---------- gallery: scroll-driven ---------- */
+  const galEls = (() => {
+    const g = document.querySelector('[data-gallery]');
+    const pin = g.querySelector('.gal-pin');
+    const track = g.querySelector('.gal-track');
+    const slides = [...track.children];
+    const countEl = g.querySelector('.gal-count b');
+    const barFill = g.querySelector('.gal-bar i');
+    g.querySelector('.gal-count span').textContent = '/ ' + String(slides.length).padStart(2, '0');
+
+    const setIndex = (i) => {
+      i = Math.max(0, Math.min(slides.length - 1, i));
+      countEl.textContent = String(i + 1).padStart(2, '0');
+      const s = Math.max(0.02, (i + 1) / slides.length);
+      if (barFill) { if (hasGsap) gsap.set(barFill, { scaleX: s }); else barFill.style.transform = 'scaleX(' + s + ')'; }
+    };
+
+    const idxFromScroll = () => {
+      const x = pin.scrollLeft; let best = 0, d = Infinity;
+      slides.forEach((s, i) => { const dd = Math.abs(s.offsetLeft - slides[0].offsetLeft - x); if (dd < d) { d = dd; best = i; } });
+      if (x + pin.clientWidth >= pin.scrollWidth - 4) best = slides.length - 1;
+      return best;
+    };
+    const syncNative = () => setIndex(idxFromScroll());
+    pin.addEventListener('scroll', () => requestAnimationFrame(syncNative), { passive: true });
+    syncNative();
+
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((es) => es.forEach((e) => { const v = e.target; if (e.isIntersecting) { v.preload = 'auto'; v.play().catch(() => {}); } else v.pause(); }), { threshold: 0.3 });
+      track.querySelectorAll('video').forEach((v) => io.observe(v));
+    }
+
+    return { pin, track, slides, setIndex, syncNative };
+  })();
+
+  function galleryPin() {
+    const { pin, track, slides, setIndex, syncNative } = galEls;
+    const mm = gsap.matchMedia();
+    mm.add({ wide: '(min-width: 821px)', narrow: '(max-width: 820px)' }, (c) => {
+      const { wide } = c.conditions;
+      pin.classList.add('gal-pinned');
+      const dist = () => Math.max(0, track.scrollWidth - window.innerWidth);
+      const tween = gsap.to(track, {
+        x: () => -dist(), ease: 'none',
+        scrollTrigger: {
+          trigger: pin, start: 'top top', end: () => '+=' + dist(),
+          pin: true, scrub: wide ? 0.6 : 0.3, invalidateOnRefresh: true, anticipatePin: 1, fastScrollEnd: true,
+          onUpdate: (self) => setIndex(Math.round(self.progress * (slides.length - 1))),
+        },
+      });
+      setIndex(0);
+      return () => {
+        pin.classList.remove('gal-pinned');
+        if (tween.scrollTrigger) tween.scrollTrigger.kill();
+        tween.kill();
+        gsap.set(track, { clearProps: 'transform' });
+        syncNative();
+      };
+    });
+  }
+
+  /* ---------- multi-step enquiry ---------- */
+  (() => {
+    const steps = [...form.querySelectorAll('.qstep')];
+    const done = form.querySelector('.qdone');
+    const prog = form.querySelector('.qprog i');
+    const sEl = form.querySelector('.qform-top .s');
+    const back = document.getElementById('qback');
+    const nextBtn = form.querySelector('.qnext');
+    const err = form.querySelector('.qerr');
+    const foot = form.querySelector('.qform-foot');
+    let i = 0;
+    const gIn = document.getElementById('guests'), gOut = document.getElementById('guestsOut');
+    const setG = (v) => { v = Math.max(5, Math.min(500, v)); gIn.value = v; gOut.textContent = v; };
+    form.querySelector('.minus').addEventListener('click', () => setG(+gIn.value - 5));
+    form.querySelector('.plus').addEventListener('click', () => { setG(+gIn.value + 5); if (motion) gsap.fromTo(gOut, { scale: 1.3 }, { scale: 1, duration: 0.4 }); });
+    const show = (n, dir) => {
+      const to = steps[n], changed = n !== i; i = n;
+      steps.forEach((s) => (s.hidden = s !== to));
+      prog.style.width = ((n + 1) / steps.length) * 100 + '%';
+      sEl.textContent = 'Step ' + (n + 1) + ' of ' + steps.length;
+      back.style.visibility = n ? 'visible' : 'hidden';
+      nextBtn.firstChild.textContent = n === steps.length - 1 ? 'Review enquiry ' : 'Continue ';
+      err.textContent = '';
+      if (motion && changed) gsap.from(to.children, { x: dir * 40, opacity: 0, duration: 0.6, stagger: 0.05, ease: 'expo.out' });
+    };
+    const valid = () => {
+      const s = steps[i]; let ok = true, msg = '';
+      s.querySelectorAll('.field').forEach((f) => f.classList.remove('bad'));
+      if (s.dataset.step === 'type' && !s.querySelector('input:checked')) { ok = false; msg = 'Choose what you are celebrating.'; }
+      s.querySelectorAll('[required]').forEach((f) => { if (!f.value.trim() || !f.checkValidity()) { ok = false; f.closest('.field').classList.add('bad'); } });
+      if (!ok && !msg) msg = 'Fill in the highlighted fields.';
+      err.textContent = msg;
+      if (!ok && motion) gsap.fromTo(s, { x: -8 }, { x: 0, duration: 0.5, ease: 'elastic.out(1,0.3)' });
+      return ok;
+    };
+    back.addEventListener('click', () => i && show(i - 1, -1));
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!valid()) return;
+      if (i < steps.length - 1) return show(i + 1, 1);
+      const d = new FormData(form);
+      const lines = [
+        'Event: ' + d.get('type'),
+        'Guests: about ' + d.get('guests'),
+        'Package: ' + d.get('pkg'),
+        'Date: ' + d.get('date'),
+        'Location: ' + d.get('area') + (d.get('venue') ? ' (' + d.get('venue') + ')' : ''),
+        'Name: ' + d.get('name'),
+        'Phone: ' + d.get('phone'),
+      ];
+      if (d.get('notes')) lines.push('Notes: ' + d.get('notes'));
+      done.querySelector('.who').textContent = String(d.get('name')).split(' ')[0];
+      const ul = done.querySelector('ul'); ul.innerHTML = '';
+      lines.forEach((t) => { const li = document.createElement('li'); li.textContent = t; ul.appendChild(li); });
+      document.getElementById('waSend').href = 'https://wa.me/35796399441?text=' + encodeURIComponent('Hi Andrew, I would like to book Wandering Bar.\n' + lines.join('\n'));
+      steps.forEach((s) => (s.hidden = true)); foot.hidden = true; err.textContent = '';
+      form.querySelector('.qform-top').hidden = true; form.querySelector('.qprog').hidden = true;
+      done.hidden = false;
+      if (motion) gsap.from(done.children, { y: 30, opacity: 0, stagger: 0.08, duration: 0.8, ease: 'expo.out' });
+    });
+    done.querySelector('.qagain').addEventListener('click', () => {
+      form.reset(); setG(40);
+      done.hidden = true; foot.hidden = false; form.querySelector('.qform-top').hidden = false; form.querySelector('.qprog').hidden = false; show(0, -1);
+    });
+    show(0, 0);
+  })();
+
+  /* ===========================================================
+     Motion
+     =========================================================== */
+  function heroStory() {
+    const hero = document.querySelector('.hero');
+    const q = gsap.utils.selector(hero);
+    const mark = q('.hero-mark')[0];
+    const l2 = q('.hero-l2')[0];
+    const l2Items = q('.hero-l2 [data-rise]');
+    const circle = q('.hero-circle')[0];
+
+    gsap.timeline({ delay: 1.2 })
+      .from(q('.hero-title .ln'), { yPercent: 105, duration: 1.2, stagger: 0.12, ease: 'expo.out' })
+      .from(mark, { yPercent: 30, opacity: 0, duration: 1.4, ease: 'expo.out' }, 0.2)
+      .from(circle, { scale: 0.4, duration: 1.4, ease: 'expo.out' }, 0.1)
+      .from(q('.hero-bar-in > *'), { opacity: 0, y: 16, stagger: 0.1, duration: 0.8 }, 0.6);
+
+    const wrap = q('.hero-mark-wrap')[0];
+    if (window.matchMedia('(hover: hover)').matches) {
+      const xTo = gsap.quickTo(wrap, 'x', { duration: 0.9, ease: 'power3' });
+      const rTo = gsap.quickTo(wrap, 'rotation', { duration: 0.9, ease: 'power3' });
+      hero.addEventListener('mousemove', (e) => { const n = e.clientX / window.innerWidth - 0.5; xTo(n * 30); rTo(n * 2); });
+    }
+
+    gsap.set(circle, { xPercent: -50, yPercent: -50 });
+    gsap.set(l2Items, { yPercent: 120, opacity: 0 });
+    gsap.set(q('.hero-chip'), { scale: 0.6, opacity: 0 });
+
+    const mm = gsap.matchMedia();
+    mm.add({ wide: '(min-width: 901px)', narrow: '(max-width: 900px)' }, (c) => {
+      const { wide } = c.conditions;
+      const cover = () => {
+        const r = circle.getBoundingClientRect(), h = hero.getBoundingClientRect();
+        const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+        const far = Math.max(Math.hypot(cx - h.left, cy - h.top), Math.hypot(h.right - cx, cy - h.top), Math.hypot(cx - h.left, h.bottom - cy), Math.hypot(h.right - cx, h.bottom - cy));
+        return (far * 2) / r.width + 0.1;
+      };
+      gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: { trigger: hero, start: 'top top', end: wide ? '+=170%' : '+=110%', pin: true, scrub: wide ? 0.8 : 0.35, invalidateOnRefresh: true, anticipatePin: 1, fastScrollEnd: true },
+      })
+        .to(q('.hero-title .ln-1'), { xPercent: -45, opacity: 0, duration: 0.35 }, 0)
+        .to(q('.hero-title .ln-2'), { xPercent: 45, opacity: 0, duration: 0.35 }, 0)
+        .to(q('.hero-bar'), { opacity: 0, y: 20, duration: 0.18 }, 0)
+        .to(q('.hero-pattern'), { opacity: 0, duration: 0.25 }, 0.05)
+        .to(circle, { scale: cover, backgroundColor: '#0D281B', duration: 0.5, ease: 'power2.inOut' }, 0)
+        .to(q('.hero-mark .light'), { opacity: 1, duration: 0.2 }, 0.22)
+        .to(mark, wide ? { x: () => window.innerWidth * 0.24, y: () => -window.innerHeight * 0.12, scale: 0.7, duration: 0.45, ease: 'power2.inOut' }
+                       : { scale: 0.46, duration: 0.45, ease: 'power2.inOut' }, 0.05)
+        .to(l2Items, { yPercent: 0, opacity: 1, duration: 0.28, stagger: 0.04, ease: 'power3.out' }, 0.5)
+        .to(q('.hero-chip'), { scale: 1, opacity: 1, duration: 0.18, stagger: 0.06, ease: 'back.out(2)' }, 0.78)
+        .to({}, { duration: 0.18 });
+    });
+  }
+
+  function splitReveals() {
+    if (!window.SplitText) return;
+    document.querySelectorAll('[data-split]').forEach((el) => {
+      SplitText.create(el, { type: 'lines', mask: 'lines', autoSplit: true,
+        onSplit(self) {
+          return gsap.from(self.lines, { yPercent: 110, duration: 1.1, stagger: 0.09, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 88%', once: true } });
+        } });
+    });
+  }
+
+  function wordScrub() {
+    if (!window.SplitText) return;
+    document.querySelectorAll('[data-scrub-words]').forEach((el) => {
+      const split = SplitText.create(el, { type: 'words', wordsClass: 'word' });
+      gsap.from(split.words, { color: '#D6CDB5', stagger: 0.1, ease: 'none', scrollTrigger: { trigger: el, start: 'top 80%', end: 'bottom 45%', scrub: true } });
+    });
+  }
+
+  function staggers() {
+    document.querySelectorAll('[data-stagger]').forEach((group) => {
+      gsap.from(group.children, { y: 60, opacity: 0, duration: 1, stagger: 0.09, ease: 'expo.out', scrollTrigger: { trigger: group, start: 'top 85%', once: true } });
+    });
+    document.querySelectorAll('[data-fade]').forEach((el) => {
+      gsap.from(el, { y: 40, opacity: 0, duration: 1.1, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 90%', once: true } });
+    });
+  }
+
+  function counter() {
+    const el = document.getElementById('yrs'); const o = { n: 0 };
+    gsap.to(o, { n: 10, duration: 1.8, ease: 'power2.out', onUpdate: () => (el.textContent = Math.round(o.n)), scrollTrigger: { trigger: el, start: 'top 88%', once: true } });
+  }
+
+  function career() {
+    const sec = document.querySelector('.adv');
+    const items = [...sec.querySelectorAll('.adv-item')];
+    const count = sec.querySelector('.adv-count');
+    const bar = sec.querySelector('.adv-bar i');
+
+    /* route map: the plane flies London -> Cyprus along the arc, driven by scroll */
+    const map = sec.querySelector('.adv-map');
+    const route = map.querySelector('.map-route');
+    const plane = map.querySelector('.map-plane');
+    const pinL = map.querySelector('.map-pin-l'), pinC = map.querySelector('.map-pin-c');
+    const labL = map.querySelector('.map-label-l'), labC = map.querySelector('.map-label-c');
+    const len = route.getTotalLength();
+    route.style.strokeDasharray = len;
+    let lastT = -1;
+    const fly = (t) => {
+      t = gsap.utils.clamp(0, 1, t);
+      if (Math.abs(t - lastT) < 0.0005) return; lastT = t;
+      route.style.strokeDashoffset = len * (1 - t);
+      const d = len * t, p = route.getPointAtLength(d);
+      const a = route.getPointAtLength(Math.max(0, d - 2)), b = route.getPointAtLength(Math.min(len, d + 2));
+      plane.setAttribute('transform', 'translate(' + p.x.toFixed(1) + ' ' + p.y.toFixed(1) + ') rotate(' + (Math.atan2(b.y - a.y, b.x - a.x) * 57.2958).toFixed(1) + ')');
+      const landed = t > 0.985;
+      plane.classList.toggle('is-on', t > 0.015 && !landed);
+      pinL.classList.toggle('is-on', t <= 0.015);
+      pinC.classList.toggle('is-on', landed);
+      labL.classList.toggle('is-on', !landed);
+      labC.classList.toggle('is-on', t > 0.6);
+    };
+    fly(0);
+
+    let active = -1;
+    const setActive = (i) => {
+      if (i === active) return; active = i;
+      items.forEach((it, k) => {
+        const on = k === i;
+        it.classList.toggle('is-on', on);
+        gsap.to(it.querySelector('p'), { height: on ? 'auto' : 0, marginTop: on ? 10 : 0, duration: 0.6, ease: 'power3.inOut', overwrite: true });
+      });
+      count.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(items.length).padStart(2, '0');
+      if (bar) gsap.set(bar, { scaleY: Math.max(0.08, (i + 1) / items.length) });
+    };
+
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 901px)', () => {
+      sec.classList.add('adv-pinned');
+      setActive(0);
+      const st = ScrollTrigger.create({
+        trigger: sec, start: 'top top', end: '+=' + items.length * 55 + '%', pin: true, scrub: true,
+        onUpdate(self) {
+          gsap.set(bar, { scaleY: Math.max(0.08, self.progress) });
+          setActive(Math.min(items.length - 1, Math.floor(self.progress * items.length)));
+          fly((self.progress - 0.3) / 0.3);   // takes off during "Bars & clubs", lands as "Hospitality in Cyprus" comes in
+        },
+      });
+      return () => { sec.classList.remove('adv-pinned'); st.kill(); gsap.set(items.map((i) => i.querySelector('p')), { clearProps: 'all' }); };
+    });
+
+    /* narrow: the map sits above the list, so the flight follows the map crossing the screen
+       and the list highlights each stop as it scrolls by */
+    mm.add('(max-width: 900px)', () => {
+      sec.classList.add('adv-pinned');
+      setActive(0);
+      const flight = ScrollTrigger.create({
+        trigger: sec.querySelector('.adv-media'), start: 'top 70%', end: 'bottom 30%', scrub: 0.5,
+        onUpdate: (self) => fly(self.progress * 1.15),
+      });
+      const triggers = items.map((it, i) => ScrollTrigger.create({
+        trigger: it, start: 'top 62%', end: 'bottom 45%',
+        onToggle: (self) => { if (self.isActive) setActive(i); },
+      }));
+      return () => {
+        sec.classList.remove('adv-pinned');
+        flight.kill();
+        triggers.forEach((t) => t.kill());
+        gsap.set(items.map((i) => i.querySelector('p')), { clearProps: 'all' });
+      };
+    });
+  }
+
+  function actionCard() {
+    gsap.fromTo(card, { clipPath: 'inset(0% 5% 0% 5% round 32px)' }, {
+      clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'none',
+      scrollTrigger: { trigger: card, start: 'top 90%', end: 'top 15%', scrub: true },
+    });
+  }
+
+  function parallax() {
+    document.querySelectorAll('[data-parallax]').forEach((el) => {
+      const amt = parseFloat(el.dataset.parallax) || 8;
+      gsap.fromTo(el, { yPercent: -amt }, { yPercent: amt, ease: 'none', scrollTrigger: { trigger: el.parentElement, start: 'top bottom', end: 'bottom top', scrub: true } });
+    });
+  }
+
+  function initMotion() {
+    heroStory(); splitReveals(); wordScrub(); staggers(); counter(); career(); galleryPin(); actionCard(); parallax();
+    window.addEventListener('load', () => ScrollTrigger.refresh());
+    document.fonts && document.fonts.ready.then(() => ScrollTrigger.refresh());
+  }
+
+  /* ---------- footer watermark: shrink to fit, never crop ---------- */
+  function fitFooterWatermark() {
+    const el = document.querySelector('.ft-big');
+    if (!el) return;
+    let raf;
+    const fit = () => {
+      el.style.transform = 'none';
+      const wrap = el.parentElement;
+      const cs = getComputedStyle(wrap);
+      const avail = wrap.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      const full = el.scrollWidth;
+      el.style.transform = full > avail ? 'scaleX(' + Math.max(avail / full, 0.001) + ')' : 'none';
+    };
+    fit();
+    window.addEventListener('resize', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(fit); });
+    document.fonts && document.fonts.ready.then(fit);
+  }
+
+  /* ---------- loader, then start ---------- */
+  const loader = document.querySelector('.loader');
+  onScroll();
+  fitFooterWatermark();
+  if (motion) {
+    initMotion();
+    gsap.timeline({ onComplete: () => loader.remove() })
+      .to(loader.querySelector('img'), { clipPath: 'inset(0% 0 0 0)', duration: 0.8, ease: 'power3.inOut' })
+      .to(loader, { yPercent: -100, duration: 0.9, ease: 'expo.inOut' }, '+=0.15');
+  } else {
+    loader.remove();
+  }
+})();
+</script>
+
+</body>
+</html>
