@@ -252,9 +252,14 @@ html:not(.motion) .hero-chip{display:none}
 .adv-item p{color:var(--on-dark);padding-left:40px;max-width:46ch;margin-top:10px;font-size:16px}
 .adv-item .venues{display:block;color:var(--white);font-weight:600}
 .motion .adv-pinned .adv-item{opacity:.3;transition:opacity .5s}
-.motion .adv-pinned .adv-item p{height:0;overflow:hidden;margin-top:0}
+.motion .adv-pinned:not(.adv-open) .adv-item p{height:0;overflow:hidden;margin-top:0}
 .motion .adv-pinned .adv-item.is-on{opacity:1}
-@media (max-width:900px){.adv-grid{grid-template-columns:1fr;min-height:0;padding-top:clamp(80px,10vw,120px)}.adv-media{aspect-ratio:4/3.4;max-width:560px}}
+.motion .adv-open .adv-item{opacity:1}
+.motion .adv-open .adv-item h3{color:var(--on-dark);transition:color .4s}
+.motion .adv-open .adv-item.is-on h3{color:var(--white)}
+.motion .adv-open .adv-item h3 span{transition:color .4s}
+.motion .adv-open .adv-item:not(.is-on) h3 span{color:#6F8A77}
+@media (max-width:900px){.adv-items{gap:60px}.adv-grid{grid-template-columns:1fr;min-height:0;padding-top:clamp(80px,10vw,120px)}.adv-media{aspect-ratio:4/3.4;max-width:560px}}
 
 /* qualifications */
 .quals-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:24px;align-items:stretch}
@@ -1252,13 +1257,13 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
     };
     fly(0);
 
-    let active = -1;
+    let active = -1, collapse = true;
     const setActive = (i) => {
       if (i === active) return; active = i;
       items.forEach((it, k) => {
         const on = k === i;
         it.classList.toggle('is-on', on);
-        gsap.to(it.querySelector('p'), { height: on ? 'auto' : 0, marginTop: on ? 10 : 0, duration: 0.6, ease: 'power3.inOut', overwrite: true });
+        if (collapse) gsap.to(it.querySelector('p'), { height: on ? 'auto' : 0, marginTop: on ? 10 : 0, duration: 0.6, ease: 'power3.inOut', overwrite: true });
       });
       count.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(items.length).padStart(2, '0');
       if (bar) gsap.set(bar, { scaleY: Math.max(0.08, (i + 1) / items.length) });
@@ -1267,13 +1272,15 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
     const mm = gsap.matchMedia();
     mm.add('(min-width: 901px)', () => {
       sec.classList.add('adv-pinned');
+      collapse = true; active = -1;
       setActive(0);
+      const n = items.length;
       const st = ScrollTrigger.create({
-        trigger: sec, start: 'top top', end: '+=' + items.length * 55 + '%', pin: true, scrub: true,
+        trigger: sec, start: 'top top', end: '+=' + n * 80 + '%', pin: true, scrub: true,
         onUpdate(self) {
           gsap.set(bar, { scaleY: Math.max(0.08, self.progress) });
           setActive(Math.min(items.length - 1, Math.floor(self.progress * items.length)));
-          fly((self.progress - 0.3) / 0.3);   // takes off during "Bars & clubs", lands as "Hospitality in Cyprus" comes in
+          fly((self.progress - 0.375) / 0.25);   // takes off during "Bars & clubs", lands as "Hospitality in Cyprus" comes in
         },
       });
       return () => { sec.classList.remove('adv-pinned'); st.kill(); gsap.set(items.map((i) => i.querySelector('p')), { clearProps: 'all' }); };
@@ -1282,18 +1289,20 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
     /* narrow: the map sits above the list, so the flight follows the map crossing the screen
        and the list highlights each stop as it scrolls by */
     mm.add('(max-width: 900px)', () => {
-      sec.classList.add('adv-pinned');
+      /* no collapsing on phones: every stop keeps its full text, so each one gets real scroll time */
+      sec.classList.add('adv-pinned', 'adv-open');
+      collapse = false; active = -1;
       setActive(0);
       const flight = ScrollTrigger.create({
         trigger: sec.querySelector('.adv-media'), start: 'top 70%', end: 'bottom 30%', scrub: 0.5,
         onUpdate: (self) => fly(self.progress * 1.15),
       });
       const triggers = items.map((it, i) => ScrollTrigger.create({
-        trigger: it, start: 'top 62%', end: 'bottom 45%',
+        trigger: it, start: 'top 55%', end: 'bottom 55%',
         onToggle: (self) => { if (self.isActive) setActive(i); },
       }));
       return () => {
-        sec.classList.remove('adv-pinned');
+        sec.classList.remove('adv-pinned', 'adv-open');
         flight.kill();
         triggers.forEach((t) => t.kill());
         gsap.set(items.map((i) => i.querySelector('p')), { clearProps: 'all' });
