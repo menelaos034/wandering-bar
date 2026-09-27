@@ -1,2 +1,2 @@
 ---
-deployment: {tasks: ["export DEPLOYPATH=/home/videoham/wanderingbarcy.com/", "/bin/cp -R index.html favicon.ico assets $DEPLOYPATH"]}
+deployment: {tasks: ["export DEPLOYPATH=/home/videoham/wanderingbarcy.com/", "/bin/cp -R index.html favicon.ico send.php deploy-hook.php assets $DEPLOYPATH"]}
