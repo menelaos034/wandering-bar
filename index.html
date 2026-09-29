@@ -283,28 +283,27 @@ html:not(.motion) .hero-chip{display:none}
 
 /* video card (expands) */
 .action{padding-top:0}
-.action-card{position:relative;height:min(86svh,800px);min-height:480px;background:var(--ink-2);color:var(--white);overflow:hidden;clip-path:inset(0 var(--gutter) round 32px);display:flex;align-items:flex-end}
-.action-card video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.action-card .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,40,27,.1) 30%,rgba(13,40,27,.85));pointer-events:none;transition:opacity .5s}
+.action-card{position:relative;width:100%;aspect-ratio:16/9;max-height:100svh;background:#000;color:var(--white);overflow:hidden;display:flex;align-items:flex-end}
+.action-card video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000}
+.action-card .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,40,27,0) 40%,rgba(13,40,27,.82));pointer-events:none;transition:opacity .5s}
 .action-card.playing .shade,.action-card.playing .action-in{opacity:0;pointer-events:none}
-.action-in{position:relative;z-index:2;width:100%;max-width:1440px;margin-inline:auto;padding:clamp(28px,5vw,72px) calc(var(--gutter) + clamp(20px,3vw,48px));display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;transition:opacity .5s}
+.action-in{position:relative;z-index:2;width:100%;max-width:1440px;margin-inline:auto;padding:clamp(28px,5vw,72px) var(--gutter);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;transition:opacity .5s}
 .action-in h2{max-width:14ch}
 .play{width:clamp(84px,9vw,124px);aspect-ratio:1;border-radius:99px;border:none;background:var(--gold);display:grid;place-items:center;cursor:pointer;transition:scale .5s var(--ease)}
 .play:hover{scale:1.08}
 .play svg{width:30%;fill:var(--white);margin-left:6%}
-.action-note{position:absolute;top:24px;right:calc(var(--gutter) + 28px);z-index:2;font-size:12.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--on-dark)}
-.vid-close{position:absolute;top:20px;left:calc(var(--gutter) + 20px);z-index:3;height:42px;padding:0 18px;border-radius:99px;border:0;background:rgba(255,255,255,.92);color:var(--green);font-weight:700;font-size:13px;cursor:pointer}
-/* desktop: show the portrait intro video whole, as a framed vertical clip beside the heading */
-@media (min-width:901px){
-  .action-card{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;height:auto;min-height:0;gap:clamp(40px,6vw,110px);padding:clamp(48px,6vw,88px) calc(var(--gutter) + clamp(40px,5vw,96px))}
-  .action-card video{position:relative;inset:auto;grid-column:2;grid-row:1;z-index:2;height:min(74svh,720px);width:auto;aspect-ratio:480/704;object-fit:contain;border-radius:24px;background:#000;box-shadow:0 40px 90px -20px rgba(0,0,0,.55)}
-  .action-card .shade{background:url(assets/intro.jpg) center/cover;filter:blur(48px) saturate(.9) brightness(.6);transform:scale(1.25);opacity:.32}
-  .action-card.playing .shade{opacity:.32}
-  .action-in{grid-column:1;grid-row:1;padding:0;margin:0;max-width:none;flex-direction:column;align-items:flex-start;justify-content:center;gap:clamp(28px,3vw,44px)}
+.vid-close{position:absolute;top:20px;right:var(--gutter);z-index:3;height:42px;padding:0 18px;border-radius:99px;border:0;background:rgba(255,255,255,.92);color:var(--green);font-weight:700;font-size:13px;cursor:pointer}
+/* phones: the landscape clip runs edge to edge at 16:9, heading and play button sit underneath */
+@media (max-width:760px){
+  .action-card{aspect-ratio:auto;max-height:none;display:block;background:var(--ink)}
+  .action-card video{position:relative;inset:auto;height:auto;aspect-ratio:16/9}
+  .action-card .shade{display:none}
+  .action-in{padding:26px var(--gutter) 34px;align-items:center;flex-wrap:nowrap}
+  .action-in h2{font-size:clamp(30px,8.4vw,40px)}
+  .play{width:72px;flex-shrink:0}
   .action-card.playing .action-in{opacity:1;pointer-events:auto}
-  .action-card.playing .play{opacity:0;pointer-events:none}
-  .play{transition:scale .5s var(--ease),opacity .4s}
-  .vid-close{top:auto;left:auto;right:calc(var(--gutter) + clamp(40px,5vw,96px));bottom:clamp(20px,2.5vw,36px)}
+  .action-card.playing .play{opacity:.35;pointer-events:none}
+  .vid-close{top:12px;right:12px;height:36px;padding:0 14px;font-size:12px}
 }
 
 /* cards (services / packages) */
@@ -1417,7 +1416,7 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
   }
 
   function actionCard() {
-    gsap.fromTo(card, { clipPath: 'inset(0% 5% 0% 5% round 32px)' }, {
+    gsap.fromTo(card, { clipPath: 'inset(0% 4% 0% 4% round 28px)' }, {
       clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'none',
       scrollTrigger: { trigger: card, start: 'top 90%', end: 'top 15%', scrub: true },
     });
