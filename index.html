@@ -296,7 +296,7 @@ html:not(.motion) .hero-chip{display:none}
 /* phones: the landscape clip runs edge to edge at 16:9, heading and play button sit underneath */
 @media (max-width:760px){
   .action-card{aspect-ratio:auto;max-height:none;display:block;background:var(--ink)}
-  .action-card video{position:relative;inset:auto;height:auto;aspect-ratio:16/9}
+  .action-card video{position:relative;inset:auto;height:auto;aspect-ratio:9/16;max-height:82svh;object-fit:cover}
   .action-card .shade{display:none}
   .action-in{padding:26px var(--gutter) 34px;align-items:center;flex-wrap:nowrap}
   .action-in h2{font-size:clamp(30px,8.4vw,40px)}
@@ -1057,6 +1057,11 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
   const vidClose = document.getElementById('vidClose');
   /* mobile browsers are strict about video: force the inline/muted flags in JS too,
      start the muted preview only when it's on screen, and never leave a failed play() silent */
+  /* phones get a vertical 9:16 cut of the clip */
+  if (window.matchMedia('(max-width:760px)').matches) {
+    vid.poster = 'assets/intro-m.jpg';
+    const src = vid.querySelector('source'); src.src = 'assets/intro-m.mp4'; vid.load();
+  }
   vid.muted = true; vid.defaultMuted = true; vid.playsInline = true;
   vid.setAttribute('webkit-playsinline', '');
   const safePlay = () => { const p = vid.play(); return p && p.catch ? p : Promise.resolve(); };
