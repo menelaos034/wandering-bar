@@ -20,7 +20,7 @@ $date  = f('date', 20);   $area   = f('area', 60);   $venue = f('venue', 200);
 $name  = f('name', 100);  $phone  = f('phone', 40);  $email = f('email', 150);
 $notes = f('notes', 3000);
 
-if ($type === '' || $date === '' || $area === '' || $venue === '' || $name === '' || $phone === '') {
+if ($type === '' || $date === '' || $area === '' || $venue === '' || $name === '' || $phone === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
   out(422, ['ok' => false, 'error' => 'missing']);
 }
 $name1 = preg_replace('/[\n]+/', ' ', $name);
