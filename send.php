@@ -2,7 +2,7 @@
 // Wandering Bar: enquiry form handler. Emails the booking form to Andrew.
 header('Content-Type: application/json; charset=utf-8');
 
-$TO   = 'info@wanderingbarcy.com';
+$TO   = 'wanderingbar@wanderingbarcy.com';
 $FROM = 'info@wanderingbarcy.com';
 
 function out($code, $data) { http_response_code($code); echo json_encode($data); exit; }
