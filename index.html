@@ -1166,12 +1166,15 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
       const target = Math.max(0, slides[i].offsetLeft - slides[0].offsetLeft);
       const start = pin.scrollLeft, dist = target - start, dur = 420, t0 = performance.now();
       if (scrollRaf) cancelAnimationFrame(scrollRaf);
+      /* CSS scroll-snap fights a stepped programmatic scroll (it snaps back to the nearest
+         point after every frame), so switch it off for the duration of the animation */
+      pin.style.scrollSnapType = 'none';
       const ease = (t) => 1 - Math.pow(1 - t, 3);
       const step = (now) => {
         const p = Math.min(1, (now - t0) / dur);
         pin.scrollLeft = start + dist * ease(p);
         if (p < 1) scrollRaf = requestAnimationFrame(step);
-        else scrollRaf = null;
+        else { scrollRaf = null; pin.style.scrollSnapType = ''; }
       };
       scrollRaf = requestAnimationFrame(step);
     };
