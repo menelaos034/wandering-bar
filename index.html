@@ -1158,12 +1158,22 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
     /* prev/next arrow buttons: scroll one slide at a time, click or keyboard */
     const prevBtn = document.getElementById('galPrev');
     const nextBtn = document.getElementById('galNext');
+    /* native smooth scrollTo (and GSAP's scrollLeft tween) both get fought by this page's
+       smooth-scroll setup, so step the scroll position ourselves on a plain rAF loop */
+    let scrollRaf = null;
     const goTo = (i) => {
       i = Math.max(0, Math.min(slides.length - 1, i));
       const target = Math.max(0, slides[i].offsetLeft - slides[0].offsetLeft);
-      /* native smooth scrollTo gets fought by this page's smooth-scroll setup, so animate it ourselves */
-      if (hasGsap) gsap.to(pin, { scrollLeft: target, duration: 0.55, ease: 'power2.out', overwrite: true });
-      else pin.scrollLeft = target;
+      const start = pin.scrollLeft, dist = target - start, dur = 420, t0 = performance.now();
+      if (scrollRaf) cancelAnimationFrame(scrollRaf);
+      const ease = (t) => 1 - Math.pow(1 - t, 3);
+      const step = (now) => {
+        const p = Math.min(1, (now - t0) / dur);
+        pin.scrollLeft = start + dist * ease(p);
+        if (p < 1) scrollRaf = requestAnimationFrame(step);
+        else scrollRaf = null;
+      };
+      scrollRaf = requestAnimationFrame(step);
     };
     const updateArrows = () => {
       const i = idxFromScroll();
