@@ -393,7 +393,7 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
 .gal-arrow[disabled]{opacity:.35;pointer-events:none}
 @media (max-width:620px){.gal-hint{display:none}.gal-arrow{width:38px;height:38px}.gal-arrow svg{width:16px;height:16px}.gal-arrow-prev{left:8px}.gal-arrow-next{right:8px}}
 @keyframes galHint{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
-.gal-pin{overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;scrollbar-width:none;cursor:grab}
+.gal-pin{overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;scrollbar-width:none;cursor:grab;touch-action:pan-x}
 .gal-pin::-webkit-scrollbar{display:none}
 .gal-pin.gal-pinned{overflow:hidden;scroll-snap-type:none}
 .gal-pin.dragging{cursor:grabbing;scroll-snap-type:none;user-select:none}
@@ -1154,6 +1154,17 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
     const syncNative = () => setIndex(idxFromScroll());
     pin.addEventListener('scroll', () => requestAnimationFrame(syncNative), { passive: true });
     syncNative();
+
+    /* a horizontally-scrollable strip that can't scroll vertically "steals" a vertical mouse
+       wheel gesture and converts it into horizontal movement (a plain browser behaviour, not
+       a ScrollTrigger pin) — which feels exactly like the page got stuck on the gallery. Detect
+       a vertical-dominant wheel gesture and hand it back to the page instead of the gallery. */
+    pin.addEventListener('wheel', (e) => {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault();
+        window.scrollBy(0, e.deltaY);
+      }
+    }, { passive: false });
 
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver((es) => es.forEach((e) => { const v = e.target; if (e.isIntersecting) { v.preload = 'auto'; (isIOS ? asBlob(v) : Promise.resolve()).then(() => { const p = v.play(); if (p && p.catch) p.catch(() => {}); }); } else v.pause(); }), { threshold: 0.3 });
