@@ -1159,31 +1159,33 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
     const prevBtn = document.getElementById('galPrev');
     const nextBtn = document.getElementById('galNext');
     /* native smooth scrollTo (and GSAP's scrollLeft tween) both get fought by this page's
-       smooth-scroll setup, so step the scroll position ourselves on a plain rAF loop */
-    let scrollRaf = null;
+       smooth-scroll setup, so step the scroll position ourselves. Driven by setTimeout rather
+       than requestAnimationFrame: rAF is throttled/suspended entirely in a backgrounded or
+       not-fully-visible tab, which would silently stall this animation for some users. */
+    let scrollTimer = null;
     const goTo = (i) => {
       i = Math.max(0, Math.min(slides.length - 1, i));
       const target = Math.max(0, slides[i].offsetLeft - slides[0].offsetLeft);
-      const start = pin.scrollLeft, dist = target - start, dur = 420, t0 = performance.now();
-      if (scrollRaf) cancelAnimationFrame(scrollRaf);
+      const start = pin.scrollLeft, dist = target - start, dur = 420, t0 = Date.now();
+      if (scrollTimer) clearTimeout(scrollTimer);
       /* CSS scroll-snap fights a stepped programmatic scroll (it snaps back to the nearest
          point after every frame), so switch it off for the duration of the animation */
       pin.style.scrollSnapType = 'none';
       const ease = (t) => 1 - Math.pow(1 - t, 3);
-      const step = (now) => {
-        const p = Math.min(1, (now - t0) / dur);
+      const step = () => {
+        const p = Math.min(1, (Date.now() - t0) / dur);
         pin.scrollLeft = start + dist * ease(p);
-        if (p < 1) scrollRaf = requestAnimationFrame(step);
-        else { scrollRaf = null; pin.style.scrollSnapType = ''; }
+        if (p < 1) scrollTimer = setTimeout(step, 16);
+        else { scrollTimer = null; pin.style.scrollSnapType = ''; updateArrows(); }
       };
-      scrollRaf = requestAnimationFrame(step);
+      step();
     };
     const updateArrows = () => {
       const i = idxFromScroll();
       prevBtn.disabled = i <= 0;
       nextBtn.disabled = i >= slides.length - 1;
     };
-    pin.addEventListener('scroll', () => requestAnimationFrame(updateArrows), { passive: true });
+    pin.addEventListener('scroll', () => { updateArrows(); }, { passive: true });
     prevBtn.addEventListener('click', () => goTo(idxFromScroll() - 1));
     nextBtn.addEventListener('click', () => goTo(idxFromScroll() + 1));
     pin.setAttribute('tabindex', '0');
