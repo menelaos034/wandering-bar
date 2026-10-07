@@ -1160,7 +1160,10 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
     const nextBtn = document.getElementById('galNext');
     const goTo = (i) => {
       i = Math.max(0, Math.min(slides.length - 1, i));
-      pin.scrollTo({ left: Math.max(0, slides[i].offsetLeft - slides[0].offsetLeft), behavior: 'smooth' });
+      const target = Math.max(0, slides[i].offsetLeft - slides[0].offsetLeft);
+      /* native smooth scrollTo gets fought by this page's smooth-scroll setup, so animate it ourselves */
+      if (hasGsap) gsap.to(pin, { scrollLeft: target, duration: 0.55, ease: 'power2.out', overwrite: true });
+      else pin.scrollLeft = target;
     };
     const updateArrows = () => {
       const i = idxFromScroll();
