@@ -1101,7 +1101,7 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
     if (card.classList.contains('playing')) return;
     if (introVisible && vid.paused) safePlay().catch(() => {});
     if (introVisible && bgvid && bgvid.paused) safePlayBg().catch(() => {});
-  }, 1800);
+  }, 900);
   playBtn.addEventListener('click', () => {
     card.classList.add('playing'); vidClose.hidden = false;
     vid.loop = false; vid.controls = true; vid.muted = false;
