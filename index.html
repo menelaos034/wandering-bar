@@ -382,17 +382,22 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
 .gal-count span{color:#A9A48F}
 .gal-hint{display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .gal-hint svg{width:15px;height:15px;stroke:var(--gold);animation:galHint 1.6s ease-in-out infinite}
-.gal-arrows{display:flex;align-items:center;gap:10px}
-.gal-arrow{width:46px;height:46px;border-radius:99px;border:1.5px solid var(--line);background:var(--white);display:grid;place-items:center;cursor:pointer;transition:border-color .25s,background .25s,transform .25s,opacity .25s;flex-shrink:0}
+.gal-viewport{position:relative}
+.gal-arrow{width:46px;height:46px;border-radius:99px;border:1.5px solid var(--line);background:var(--white);display:grid;place-items:center;cursor:pointer;transition:border-color .25s,background .25s,transform .25s,opacity .25s;flex-shrink:0;position:absolute;top:50%;z-index:5;box-shadow:0 6px 18px rgba(20,20,12,.12)}
+.gal-arrow-prev{left:14px;transform:translateY(-50%)}
+.gal-arrow-next{right:14px;transform:translateY(-50%)}
 .gal-arrow svg{width:19px;height:19px;stroke:var(--green)}
 .gal-arrow:hover{border-color:var(--gold);background:var(--champ)}
-.gal-arrow:active{transform:scale(.92)}
+.gal-arrow-prev:active{transform:translateY(-50%) scale(.92)}
+.gal-arrow-next:active{transform:translateY(-50%) scale(.92)}
 .gal-arrow[disabled]{opacity:.35;pointer-events:none}
-@media (max-width:620px){.gal-hint{display:none}}
+@media (max-width:620px){.gal-hint{display:none}.gal-arrow{width:38px;height:38px}.gal-arrow svg{width:16px;height:16px}.gal-arrow-prev{left:8px}.gal-arrow-next{right:8px}}
 @keyframes galHint{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
-.gal-pin{overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;scrollbar-width:none}
+.gal-pin{overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;scrollbar-width:none;cursor:grab}
 .gal-pin::-webkit-scrollbar{display:none}
 .gal-pin.gal-pinned{overflow:hidden;scroll-snap-type:none}
+.gal-pin.dragging{cursor:grabbing;scroll-snap-type:none;user-select:none}
+.gal-pin.dragging .gal-slide{pointer-events:none}
 .gal-track{display:flex;gap:18px;padding-inline:var(--gutter);width:max-content}
 .gal-slide{flex:none;height:clamp(380px,62vh,580px);border-radius:var(--radius);overflow:hidden;position:relative;background:var(--champ);margin:0;scroll-snap-align:start}
 .gal-slide.p{aspect-ratio:4/5}
@@ -794,18 +799,17 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
     <div class="sec-head">
       <div><span class="eyebrow">Gallery</span><h2 class="h-lg" data-split>Behind the bar.</h2></div>
       <div class="gal-nav"><span class="gal-count"><b>01</b> <span>/ 08</span></span>
-        <span class="gal-hint">Scroll<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        <div class="gal-arrows">
-          <button class="gal-arrow" id="galPrev" type="button" aria-label="Previous photo"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
-          <button class="gal-arrow" id="galNext" type="button" aria-label="Next photo"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
-        </div>
+        <span class="gal-hint">Drag<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </div>
     </div>
   </div>
+  <div class="gal-viewport">
+  <button class="gal-arrow gal-arrow-prev" id="galPrev" type="button" aria-label="Previous photo"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+  <button class="gal-arrow gal-arrow-next" id="galNext" type="button" aria-label="Next photo"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
   <div class="gal-pin" id="galPin">
   <div class="gal-track" id="galTrack">
     <figure class="gal-slide p"><img src="assets/serve.jpg" alt="A cocktail served across the bar" loading="lazy" draggable="false"></figure>
-    <figure class="gal-slide v"><video src="assets/clip1.mp4" poster="assets/clip1.jpg" muted loop playsinline preload="none" aria-label="Finishing a pink martini"></video></figure>
+    <figure class="gal-slide v"><video src="assets/clip1.mp4" poster="assets/clip1.jpg" muted loop playsinline preload="none" aria-label="Andrew mixing a signature cocktail"></video></figure>
     <figure class="gal-slide p"><img src="assets/shake.jpg" alt="Andrew shaking a cocktail" loading="lazy" draggable="false"></figure>
     <figure class="gal-slide v"><video src="assets/clip2.mp4" poster="assets/clip2.jpg" muted loop playsinline preload="none" aria-label="Flair bartending with a shaker"></video></figure>
     <figure class="gal-slide p"><img src="assets/andrew-martini.jpg" alt="Andrew presenting a martini" loading="lazy" draggable="false"></figure>
@@ -815,6 +819,7 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
     <figure class="gal-slide p"><img src="assets/negroni-hand.jpg" alt="Serving a Negroni with a grapefruit garnish" loading="lazy" draggable="false"></figure>
     <figure class="gal-slide p"><img src="assets/monkey-cup.jpg" alt="A garnished cocktail served in a cup" loading="lazy" draggable="false"></figure>
     <figure class="gal-slide p"><img src="assets/pink-martini.jpg" alt="A pink cocktail garnished with an edible flower" loading="lazy" draggable="false"></figure>
+  </div>
   </div>
   </div>
   <div class="wrap"><div class="gal-bar"><i></i></div></div>
@@ -1195,6 +1200,42 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
       if (e.key === 'ArrowRight') { e.preventDefault(); goTo(idxFromScroll() + 1); }
       else if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(idxFromScroll() - 1); }
     });
+
+    /* mouse drag-to-scroll (touch already drags natively via overflow-x:auto, so this
+       is scoped to pointerType 'mouse' only, to avoid fighting native touch scrolling) */
+    let dragging = false, dragMoved = false, dragStartX = 0, dragStartScroll = 0;
+    pin.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      dragging = true; dragMoved = false;
+      dragStartX = e.clientX; dragStartScroll = pin.scrollLeft;
+      if (scrollTimer) { clearTimeout(scrollTimer); scrollTimer = null; }
+      pin.classList.add('dragging');
+      pin.setPointerCapture(e.pointerId);
+    });
+    pin.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - dragStartX;
+      if (Math.abs(dx) > 4) dragMoved = true;
+      pin.scrollLeft = dragStartScroll - dx;
+    });
+    const endDrag = (e) => {
+      if (!dragging) return;
+      dragging = false;
+      pin.classList.remove('dragging');
+      const dx = e.clientX - dragStartX;
+      const startIdx = idxFromScroll();
+      if (dragMoved && Math.abs(dx) > 50) {
+        /* decisive drag: commit to the next/previous photo like a swipe */
+        goTo(dx < 0 ? startIdx + 1 : startIdx - 1);
+      } else {
+        /* small or no movement: settle back on the nearest photo */
+        goTo(startIdx);
+      }
+    };
+    pin.addEventListener('pointerup', endDrag);
+    pin.addEventListener('pointercancel', endDrag);
+    pin.addEventListener('click', (e) => { if (dragMoved) { e.preventDefault(); e.stopPropagation(); } }, true);
+
     updateArrows();
 
     return { pin, track, slides, setIndex, syncNative };
