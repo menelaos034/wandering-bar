@@ -1081,18 +1081,27 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
   const safePlayBg = () => { if (!bgvid) return Promise.resolve(); const p = bgvid.play(); return p && p.catch ? p : Promise.resolve(); };
   /* observe the whole card (not the narrower pillarboxed video) with a buffer margin
      and only pause once it's fully out of view, so a borderline/edge ratio never flaps play/pause */
+  let introVisible = false;
   if ('IntersectionObserver' in window) {
     new IntersectionObserver((es) => es.forEach((e) => {
-      const visible = e.intersectionRatio > 0;
-      if (bgvid) { if (visible) { bgvid.preload = 'auto'; safePlayBg().catch(() => {}); } else bgvid.pause(); }
+      introVisible = e.intersectionRatio > 0;
+      if (bgvid) { if (introVisible) { bgvid.preload = 'auto'; safePlayBg().catch(() => {}); } else bgvid.pause(); }
       if (card.classList.contains('playing')) return;
-      if (visible) {
+      if (introVisible) {
         vid.preload = 'auto'; vid.muted = true;
         (isIOS ? asBlob(vid) : Promise.resolve()).then(() => { if (!card.classList.contains('playing')) safePlay().catch(() => {}); });
       }
       else vid.pause();
     }), { threshold: 0, rootMargin: '200px 0px' }).observe(card);
-  } else { safePlay().catch(() => {}); safePlayBg().catch(() => {}); }
+  } else { introVisible = true; safePlay().catch(() => {}); safePlayBg().catch(() => {}); }
+  /* watchdog: GSAP's ScrollTrigger.refresh() (fired on window load / web-font load) can nudge
+     scroll position and race the observer above, leaving the muted preview stuck paused.
+     Self-heal every couple of seconds instead of chasing that race. */
+  setInterval(() => {
+    if (card.classList.contains('playing')) return;
+    if (introVisible && vid.paused) safePlay().catch(() => {});
+    if (introVisible && bgvid && bgvid.paused) safePlayBg().catch(() => {});
+  }, 1800);
   playBtn.addEventListener('click', () => {
     card.classList.add('playing'); vidClose.hidden = false;
     vid.loop = false; vid.controls = true; vid.muted = false;
