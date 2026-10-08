@@ -87,11 +87,11 @@ html:not(.motion) .loader{display:none}
 .hdr-nav>a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1.5px;background:var(--gold);transform:scaleX(0);transform-origin:right;transition:transform .4s var(--ease)}
 .hdr-nav>a:hover::after,.hdr-nav>a[aria-current="true"]::after{transform:scaleX(1);transform-origin:left}
 .hdr-spacer{flex:1}
-.menu-btn{width:48px;height:48px;border-radius:99px;border:1.5px solid var(--green);background:transparent;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;cursor:pointer;flex-shrink:0}
+.menu-btn{width:48px;height:48px;border-radius:99px;border:1.5px solid var(--green);background:transparent;display:none;flex-direction:column;justify-content:center;align-items:center;gap:6px;cursor:pointer;flex-shrink:0}
 .menu-btn span{width:18px;height:2px;background:var(--green);border-radius:2px;transition:transform .4s var(--ease),width .4s var(--ease)}
 .menu-btn span+span{width:12px;margin-left:6px}
 .menu-btn:hover span+span{transform:translateX(-3px);width:18px}
-@media (max-width:1220px){.hdr-nav{display:none}}
+@media (max-width:1220px){.hdr-nav{display:none}.menu-btn{display:flex}}
 @media (max-width:560px){.hdr .btn-quote{display:none}.hdr{height:66px;gap:12px}.hdr-logo img{height:54px}}
 
 /* ---------- fullscreen menu ---------- */
@@ -120,7 +120,8 @@ html:not(.motion) .loader{display:none}
 .menu-side a.u:hover{color:var(--gold-soft)}
 .menu-phone{font-family:var(--display);font-size:30px}
 .menu-foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:#94A898;font-size:14px;max-width:1440px;margin:32px auto 0;width:100%;padding-inline:18px}
-@media (max-width:820px){.menu-body{grid-template-columns:1fr}}
+@media (max-width:820px){.menu-body{grid-template-columns:1fr;gap:clamp(16px,3vh,32px);padding-top:clamp(10px,2vh,24px)}.menu-nav .t{font-size:clamp(30px,8.5vw,52px)}.mi{padding:5px 0}.menu-nav .n{font-size:11px;width:22px}}
+@media (max-width:480px){.menu-nav .t{font-size:clamp(24px,8vw,38px)}.mi{padding:3px 0}.menu-top img{height:40px}.menu-top{height:56px}}
 
 /* ---------- HERO (pinned scroll story) ---------- */
 .hero{position:relative;background:var(--ivory);overflow:hidden;color:var(--ink)}
@@ -370,6 +371,24 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
 .drink:hover .ing{color:var(--on-dark)}
 .drink .zero{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--gold);border:1.5px solid currentColor;border-radius:99px;padding:3px 9px}
 .drink:hover .zero{color:var(--gold-soft)}
+.drink{cursor:pointer}
+
+/* ---------- drink preview popup ---------- */
+.drink-pop-backdrop{position:fixed;inset:0;background:rgba(13,20,16,.5);backdrop-filter:blur(3px);z-index:198;opacity:0;visibility:hidden;transition:opacity .35s var(--ease)}
+.drink-pop-backdrop.is-open{opacity:1;visibility:visible}
+.drink-pop{position:fixed;z-index:199;width:220px;background:var(--white);border-radius:20px;box-shadow:0 24px 60px -16px rgba(20,20,12,.35),0 2px 8px rgba(20,20,12,.1);padding:14px 14px 16px;opacity:0;visibility:hidden;transform:translateY(8px) scale(.96);transition:opacity .28s var(--ease),transform .28s var(--ease);pointer-events:none}
+.drink-pop.is-open{opacity:1;visibility:visible;transform:translateY(0) scale(1);pointer-events:auto}
+.drink-pop img{width:100%;height:220px;object-fit:contain;display:block}
+.drink-pop-name{display:block;text-align:center;font-family:var(--display);font-size:19px;color:var(--green);margin-top:4px}
+.drink-pop-close{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;border:none;background:var(--champ);display:none;align-items:center;justify-content:center;cursor:pointer;color:var(--green)}
+.drink-pop-close svg{width:14px;height:14px}
+@media (hover:none),(max-width:760px){
+  .drink-pop{width:min(300px,84vw);left:50%!important;top:50%!important;right:auto!important;bottom:auto!important;transform:translate(-50%,-50%) scale(.94);padding:20px 18px 22px}
+  .drink-pop.is-open{transform:translate(-50%,-50%) scale(1)}
+  .drink-pop img{height:280px}
+  .drink-pop-close{display:flex}
+  .drink-pop-name{font-size:22px;margin-top:8px}
+}
 .fav{position:relative;overflow:hidden;margin-top:18px;background:var(--green);color:var(--white);border-radius:var(--radius);padding:clamp(26px,3vw,40px);display:flex;flex-wrap:wrap;gap:22px;align-items:center;justify-content:space-between}
 .fav h4{font-size:clamp(26px,2.4vw,34px)}
 .fav p{color:var(--on-dark);margin-top:8px;max-width:40ch}
@@ -511,10 +530,12 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
   <div class="menu-body">
     <nav class="menu-nav" aria-label="Menu">
       <div class="mi"><a href="#about"><span class="n">01</span><span class="t">About</span></a></div>
-      <div class="mi"><a href="#services"><span class="n">02</span><span class="t">Services</span></a></div>
-      <div class="mi"><a href="#cocktails"><span class="n">03</span><span class="t">Cocktails</span></a></div>
-      <div class="mi"><a href="#packages"><span class="n">04</span><span class="t">Packages</span></a></div>
-      <div class="mi"><a href="#contact"><span class="n">05</span><span class="t">Contact</span></a></div>
+      <div class="mi"><a href="#bartender"><span class="n">02</span><span class="t">Bartender</span></a></div>
+      <div class="mi"><a href="#services"><span class="n">03</span><span class="t">Services</span></a></div>
+      <div class="mi"><a href="#cocktails"><span class="n">04</span><span class="t">Cocktails</span></a></div>
+      <div class="mi"><a href="#packages"><span class="n">05</span><span class="t">Packages</span></a></div>
+      <div class="mi"><a href="#gallery"><span class="n">06</span><span class="t">Gallery</span></a></div>
+      <div class="mi"><a href="#contact"><span class="n">07</span><span class="t">Contact</span></a></div>
     </nav>
   </div>
 </div>
@@ -717,19 +738,19 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
         <div class="menu-card" data-fade>
           <h3>Classics</h3>
           <ul>
-            <li class="drink"><span class="dot" style="--c:#E0AE4C"></span><div><h4>Amaretto Sour</h4><p class="ing">Amaretto · Fresh Lemon · Angostura Bitters · Foamer</p></div></li>
-            <li class="drink"><span class="dot" style="--c:#EDA53C"></span><div><h4>Pornstar Martini</h4><p class="ing">Vodka · Passion Fruit · Vanilla · Pineapple · Lemon</p></div></li>
-            <li class="drink"><span class="dot" style="--c:#B3302A"></span><div><h4>Negroni</h4><p class="ing">Gin · Campari · Sweet Vermouth</p></div></li>
-            <li class="drink"><span class="dot" style="--c:#7DB552"></span><div><h4>Mojito</h4><p class="ing">White Rum · Fresh Lime · Mint · Soda</p></div></li>
-            <li class="drink"><span class="dot" style="--c:#EC9580"></span><div><h4>Paloma</h4><p class="ing">Tequila · Grapefruit · Fresh Lime</p></div></li>
-            <li class="drink"><span class="dot" style="--c:#86391D"></span><div><h4>Manhattan</h4><p class="ing">Whiskey · Vermouth · Angostura Bitters</p></div></li>
+            <li class="drink" data-drink="amaretto-sour" tabindex="0"><span class="dot" style="--c:#E0AE4C"></span><div><h4>Amaretto Sour</h4><p class="ing">Amaretto · Fresh Lemon · Angostura Bitters · Foamer</p></div></li>
+            <li class="drink" data-drink="pornstar-martini" tabindex="0"><span class="dot" style="--c:#EDA53C"></span><div><h4>Pornstar Martini</h4><p class="ing">Vodka · Passion Fruit · Vanilla · Pineapple · Lemon</p></div></li>
+            <li class="drink" data-drink="signature-cocktail" tabindex="0"><span class="dot" style="--c:#B3302A"></span><div><h4>Negroni</h4><p class="ing">Gin · Campari · Sweet Vermouth</p></div></li>
+            <li class="drink" data-drink="mojito" tabindex="0"><span class="dot" style="--c:#7DB552"></span><div><h4>Mojito</h4><p class="ing">White Rum · Fresh Lime · Mint · Soda</p></div></li>
+            <li class="drink" data-drink="paloma" tabindex="0"><span class="dot" style="--c:#EC9580"></span><div><h4>Paloma</h4><p class="ing">Tequila · Grapefruit · Fresh Lime</p></div></li>
+            <li class="drink" data-drink="manhattan" tabindex="0"><span class="dot" style="--c:#86391D"></span><div><h4>Manhattan</h4><p class="ing">Whiskey · Vermouth · Angostura Bitters</p></div></li>
           </ul>
         </div>
         <div class="menu-card" data-fade>
           <h3>Mocktails 0% Alc.</h3>
           <ul>
-            <li class="drink"><span class="dot" style="--c:#9FCB70"></span><div><h4>Nojito</h4><p class="ing">Fresh Lime · Mint · Soda</p></div><span class="zero">0%</span></li>
-            <li class="drink"><span class="dot" style="--c:#E39E35"></span><div><h4>Cyprus Passion</h4><p class="ing">Passion Fruit · Lemon · Soda</p></div><span class="zero">0%</span></li>
+            <li class="drink" data-drink="nojito" tabindex="0"><span class="dot" style="--c:#9FCB70"></span><div><h4>Nojito</h4><p class="ing">Fresh Lime · Mint · Soda</p></div><span class="zero">0%</span></li>
+            <li class="drink" data-drink="cyprus-passion" tabindex="0"><span class="dot" style="--c:#E39E35"></span><div><h4>Cyprus Passion</h4><p class="ing">Passion Fruit · Lemon · Soda</p></div><span class="zero">0%</span></li>
           </ul>
         </div>
         <div class="fav" data-fade>
@@ -741,6 +762,13 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
     </div>
   </div>
 </section>
+
+<div class="drink-pop" id="drinkPop" aria-hidden="true">
+  <button class="drink-pop-close" id="drinkPopClose" type="button" aria-label="Close preview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <img id="drinkPopImg" src="" alt="">
+  <span class="drink-pop-name" id="drinkPopName"></span>
+</div>
+<div class="drink-pop-backdrop" id="drinkPopBackdrop"></div>
 
 <!-- ================= PACKAGES ================= -->
 <section class="section" id="packages" style="padding-top:0">
@@ -811,7 +839,6 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
     <figure class="gal-slide p"><img src="assets/serve.jpg" alt="A cocktail served across the bar" loading="lazy" draggable="false"></figure>
     <figure class="gal-slide v"><video src="assets/clip1.mp4" poster="assets/clip1.jpg" muted loop playsinline preload="none" aria-label="Andrew mixing a signature cocktail"></video></figure>
     <figure class="gal-slide p"><img src="assets/shake.jpg" alt="Andrew shaking a cocktail" loading="lazy" draggable="false"></figure>
-    <figure class="gal-slide v"><video src="assets/clip2.mp4" poster="assets/clip2.jpg" muted loop playsinline preload="none" aria-label="Flair bartending with a shaker"></video></figure>
     <figure class="gal-slide p"><img src="assets/andrew-martini.jpg" alt="Andrew presenting a martini" loading="lazy" draggable="false"></figure>
     <figure class="gal-slide v"><video src="assets/clip3.mp4" poster="assets/clip3.jpg" muted loop playsinline preload="none" aria-label="Pouring a cocktail at the bar"></video></figure>
     <figure class="gal-slide p"><img src="assets/flair.jpg" alt="Flair bartending" loading="lazy" draggable="false"></figure>
@@ -1026,6 +1053,70 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
   menuBtn.addEventListener('click', openMenu);
   menuClose.addEventListener('click', closeMenu);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && menuOpen) closeMenu(); });
+
+  /* ---------- drink preview popup ---------- */
+  (() => {
+    const items = [...document.querySelectorAll('.drink[data-drink]')];
+    if (!items.length) return;
+    const pop = document.getElementById('drinkPop');
+    const popImg = document.getElementById('drinkPopImg');
+    const popName = document.getElementById('drinkPopName');
+    const popClose = document.getElementById('drinkPopClose');
+    const backdrop = document.getElementById('drinkPopBackdrop');
+    const canHover = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+    let popOpen = false, activeItem = null;
+
+    const nameFromItem = (item) => item.querySelector('h4') ? item.querySelector('h4').textContent : '';
+
+    const positionNear = (item) => {
+      const r = item.getBoundingClientRect();
+      const popW = 220, popH = 280, margin = 16;
+      let left = r.right + 18;
+      if (left + popW > window.innerWidth - margin) left = r.left - popW - 18;
+      if (left < margin) left = Math.min(window.innerWidth - popW - margin, Math.max(margin, r.left));
+      let top = r.top + r.height / 2 - popH / 2;
+      top = Math.max(margin, Math.min(window.innerHeight - popH - margin, top));
+      pop.style.left = left + 'px';
+      pop.style.top = top + 'px';
+    };
+
+    const openPop = (item, anchored) => {
+      const slug = item.getAttribute('data-drink');
+      activeItem = item;
+      popImg.src = 'assets/drinks/' + slug + '.png';
+      popImg.alt = nameFromItem(item);
+      popName.textContent = nameFromItem(item);
+      if (anchored) positionNear(item);
+      pop.classList.add('is-open');
+      pop.setAttribute('aria-hidden', 'false');
+      popOpen = true;
+      if (!anchored) { backdrop.classList.add('is-open'); }
+    };
+    const closePop = () => {
+      if (!popOpen) return;
+      pop.classList.remove('is-open');
+      pop.setAttribute('aria-hidden', 'true');
+      backdrop.classList.remove('is-open');
+      popOpen = false; activeItem = null;
+    };
+
+    items.forEach((item) => {
+      if (canHover) {
+        item.addEventListener('mouseenter', () => openPop(item, true));
+        item.addEventListener('mouseleave', () => { if (activeItem === item) closePop(); });
+        item.addEventListener('focus', () => openPop(item, true));
+        item.addEventListener('blur', () => { if (activeItem === item) closePop(); });
+      } else {
+        item.addEventListener('click', () => {
+          if (popOpen && activeItem === item) { closePop(); } else { openPop(item, false); }
+        });
+      }
+    });
+    popClose.addEventListener('click', closePop);
+    backdrop.addEventListener('click', closePop);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && popOpen) closePop(); });
+    window.addEventListener('scroll', () => { if (popOpen && canHover) closePop(); }, { passive: true });
+  })();
 
   /* ---------- magnetic buttons ---------- */
   if (motion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
