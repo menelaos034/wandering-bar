@@ -492,6 +492,10 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
 .ft-cols a,.ft-cols span{display:block;color:#E3EAE0;padding:3px 0}
 .ft-cols a:hover{color:var(--gold-soft)}
 .ft-cols .ft-mail{overflow-wrap:break-word}
+.ft-social{display:flex;gap:12px;margin-top:4px}
+.ft-social a{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--ink-line);display:flex;align-items:center;justify-content:center;color:#E3EAE0;transition:border-color .3s,background .3s,color .3s,transform .3s}
+.ft-social a svg{width:18px;height:18px}
+.ft-social a:hover{border-color:var(--gold);background:var(--gold);color:var(--ink);transform:translateY(-2px)}
 .ft-big{display:block;font-family:var(--display);letter-spacing:-.03em;font-size:clamp(56px,13.4vw,210px);line-height:1;padding-bottom:.1em;color:var(--ink-2);margin-top:clamp(48px,6vw,80px);white-space:nowrap;user-select:none}
 .ft-big span{display:inline-block;padding-right:.06em}
 .ft-bot .credit{display:inline-flex;align-items:center;gap:10px;font-size:16px;color:#C9D6C6;transition:color .3s}.ft-bot .credit img{height:18px;width:auto;transition:opacity .3s}.ft-bot .credit:hover{color:var(--gold-soft)}.ft-bot .credit:hover img{opacity:.8}
@@ -938,7 +942,13 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
   <div class="wrap">
     <div class="ft-top">
       <div class="ft-brand"><img src="assets/logo-light.png" alt="Wandering Bar"><p>Mobile cocktail bar for private events across Cyprus. Cocktails. Good Company. Unforgettable Events.</p>
-        <a class="btn btn-gold btn-sm" href="#contact" style="align-self:flex-start">Enquire now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+        <a class="btn btn-gold btn-sm" href="#contact" style="align-self:flex-start">Enquire now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <div class="ft-social">
+          <a href="https://www.facebook.com/profile.php?id=61595183872344" target="_blank" rel="noopener" aria-label="Wandering Bar on Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.8h2.6l.4-3h-3V8.1c0-.87.24-1.46 1.5-1.46H16.6V4c-.27-.04-1.2-.11-2.28-.11-2.26 0-3.8 1.38-3.8 3.9v2.4H8v3h2.52V21h2.98Z"/></svg></a>
+          <a href="https://www.instagram.com/cateringbarcy/" target="_blank" rel="noopener" aria-label="Wandering Bar on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.1" cy="6.9" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://www.tiktok.com/@cateringbarcy" target="_blank" rel="noopener" aria-label="Wandering Bar on TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 3h-3.1v12.2a2.9 2.9 0 1 1-2.1-2.8v-3.2a6.1 6.1 0 1 0 5.2 6.04V9.3a7.1 7.1 0 0 0 4.1 1.3V7.5a4 4 0 0 1-4.1-4.1Z"/></svg></a>
+        </div>
+      </div>
       <div class="ft-cols">
         <div><h4>Explore</h4><a href="#home">Home</a><a href="#about">About</a><a href="#bartender">Meet Your Bartender</a><a href="#services">Services</a></div>
         <div><h4>More</h4><a href="#cocktails">Cocktails</a><a href="#packages">Packages</a><a href="#gallery">Gallery</a><a href="#contact">Contact</a></div>
