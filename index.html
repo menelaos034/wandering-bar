@@ -285,28 +285,27 @@ html:not(.motion) .hero-chip{display:none}
 
 /* video card (expands) */
 .action{padding-top:0}
-.action-card{position:relative;width:100%;height:min(94svh,860px);background:#000;color:var(--white);overflow:hidden;display:flex;align-items:flex-end}
-.action-card .bgvid{position:absolute;inset:-6%;width:112%;height:112%;object-fit:cover;filter:blur(44px) brightness(.46) saturate(1.2);transform:scale(1.04)}
-.action-card video#introVideo{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);height:100%;width:auto;max-width:100%;object-fit:contain;background:transparent}
-.action-card .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,40,27,0) 40%,rgba(13,40,27,.82));pointer-events:none;transition:opacity .5s}
-.action-card.playing .shade,.action-card.playing .action-in{opacity:0;pointer-events:none}
-.action-in{position:relative;z-index:2;width:100%;max-width:1440px;margin-inline:auto;padding:clamp(28px,5vw,72px) var(--gutter);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;transition:opacity .5s}
+.action-card{position:relative;width:100%;height:min(94svh,860px);background:var(--ink);color:var(--white);overflow:hidden;display:flex;align-items:flex-end}
+/* desktop: 16:9 horizontal cut fills the card edge to edge */
+.action-card video#introVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:var(--ink)}
+/* hide the browser's own play overlay so there is only ever one play button */
+.action-card video::-webkit-media-controls-start-playback-button{display:none!important;-webkit-appearance:none}
+.action-card video::-webkit-media-controls-overlay-play-button{display:none!important}
+.action-card .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,40,27,0) 45%,rgba(13,40,27,.82));pointer-events:none;transition:opacity .5s}
+.action-in{position:relative;z-index:2;width:100%;max-width:1440px;margin-inline:auto;padding:clamp(28px,5vw,72px) var(--gutter);transition:opacity .5s;pointer-events:none}
 .action-in h2{max-width:14ch}
-.play{width:clamp(84px,9vw,124px);aspect-ratio:1;border-radius:99px;border:none;background:var(--gold);display:grid;place-items:center;cursor:pointer;transition:scale .5s var(--ease)}
+.play{position:absolute;z-index:3;left:0;right:0;top:0;bottom:0;margin:auto;width:clamp(84px,9vw,124px);height:clamp(84px,9vw,124px);border-radius:99px;border:none;background:var(--gold);display:grid;place-items:center;cursor:pointer;box-shadow:0 18px 50px -12px rgba(0,0,0,.55);transition:scale .5s var(--ease),opacity .4s}
 .play:hover{scale:1.08}
 .play svg{width:30%;fill:var(--white);margin-left:6%}
-.vid-close{position:absolute;top:20px;right:var(--gutter);z-index:3;height:42px;padding:0 18px;border-radius:99px;border:0;background:rgba(255,255,255,.92);color:var(--green);font-weight:700;font-size:13px;cursor:pointer}
-/* phones: the landscape clip runs edge to edge at 16:9, heading and play button sit underneath */
+.action-card.playing .shade,.action-card.playing .action-in,.action-card.playing .play{opacity:0;pointer-events:none}
+.vid-close{position:absolute;top:20px;right:var(--gutter);z-index:4;height:42px;padding:0 18px;border-radius:99px;border:0;background:rgba(255,255,255,.92);color:var(--green);font-weight:700;font-size:13px;cursor:pointer}
+/* phones: vertical 4:5 cut, heading overlaid on the video, no extra panel underneath */
 @media (max-width:760px){
-  .action-card{height:auto;display:block;background:var(--ink)}
-  .action-card .bgvid{display:none}
-  .action-card video#introVideo{position:relative;inset:auto;top:auto;left:auto;transform:none;height:auto;width:100%;aspect-ratio:9/16;max-height:82svh;object-fit:cover}
-  .action-card .shade{display:none}
-  .action-in{padding:26px var(--gutter) 34px;align-items:center;flex-wrap:nowrap}
-  .action-in h2{font-size:clamp(30px,8.4vw,40px)}
-  .play{width:72px;flex-shrink:0}
-  .action-card.playing .action-in{opacity:1;pointer-events:auto}
-  .action-card.playing .play{opacity:.35;pointer-events:none}
+  .action-card{height:auto;aspect-ratio:4/5;max-height:88svh;display:flex}
+  .action-card video#introVideo{object-fit:cover}
+  .action-in{padding:0 var(--gutter) 26px}
+  .action-in h2{font-size:clamp(28px,8vw,40px)}
+  .play{width:76px;height:76px}
   .vid-close{top:12px;right:12px;height:36px;padding:0 14px;font-size:12px}
 }
 
@@ -717,13 +716,12 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
 
 <section class="action" aria-label="Meet Andrew video">
   <div class="action-card on-dark" id="actionCard">
-    <video class="bgvid" aria-hidden="true" tabindex="-1" muted loop playsinline webkit-playsinline autoplay preload="auto"><source src="assets/intro.mp4" type="video/mp4"></video>
-    <video id="introVideo" poster="assets/intro.jpg" muted loop playsinline webkit-playsinline autoplay preload="metadata"><source src="assets/intro.mp4" type="video/mp4"></video>
+    <video id="introVideo" poster="assets/intro.jpg" muted loop playsinline webkit-playsinline preload="none" data-wide-src="assets/intro-wide.mp4" data-wide-poster="assets/intro-wide.jpg"><source src="assets/intro.mp4" type="video/mp4"></video>
     <div class="shade"></div>
     <button class="vid-close" id="vidClose" type="button" hidden>Close video</button>
+    <button class="play" id="playBtn" type="button" aria-label="Play Andrew's introduction video"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
     <div class="action-in">
       <h2 class="h-lg" data-split>Meet Andrew, <span class="accent">your bartender.</span></h2>
-      <button class="play" id="playBtn" type="button" aria-label="Play Andrew's introduction video" data-magnetic><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
     </div>
   </div>
 </section>
@@ -1204,7 +1202,6 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
   /* ---------- intro video card ---------- */
   const card = document.getElementById('actionCard');
   const vid = document.getElementById('introVideo');
-  const bgvid = document.querySelector('.action-card .bgvid');
   const playBtn = document.getElementById('playBtn');
   const vidClose = document.getElementById('vidClose');
   /* mobile browsers are strict about video: force the inline/muted flags in JS too,
@@ -1212,18 +1209,30 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
   vid.muted = true; vid.defaultMuted = true; vid.playsInline = true;
   vid.setAttribute('webkit-playsinline', '');
   const safePlay = () => { const p = vid.play(); return p && p.catch ? p : Promise.resolve(); };
-  if (bgvid) {
-    bgvid.muted = true; bgvid.defaultMuted = true; bgvid.playsInline = true;
-    bgvid.setAttribute('webkit-playsinline', '');
-  }
-  const safePlayBg = () => { if (!bgvid) return Promise.resolve(); const p = bgvid.play(); return p && p.catch ? p : Promise.resolve(); };
+  /* horizontal 16:9 cut on desktop/tablet, vertical 4:5 cut on phones */
+  const vidSource = vid.querySelector('source');
+  const narrowSrc = vidSource.getAttribute('src'), narrowPoster = vid.getAttribute('poster');
+  const wideMQ = window.matchMedia('(min-width: 761px)');
+  const pickIntroSrc = () => {
+    if (card.classList.contains('playing')) return;
+    const wide = wideMQ.matches;
+    const src = wide ? vid.dataset.wideSrc : narrowSrc;
+    if (vid._picked === src) return;
+    vid._picked = src; vid._blob = null;
+    vid.poster = wide ? vid.dataset.widePoster : narrowPoster;
+    let s = vid.querySelector('source');
+    if (!s) { s = document.createElement('source'); s.type = 'video/mp4'; vid.appendChild(s); vid.removeAttribute('src'); }
+    s.src = src; vid.load();
+    if (introVisible) safePlay().catch(() => {});
+  };
   /* observe the whole card (not the narrower pillarboxed video) with a buffer margin
      and only pause once it's fully out of view, so a borderline/edge ratio never flaps play/pause */
   let introVisible = false;
+  pickIntroSrc();
+  if (wideMQ.addEventListener) wideMQ.addEventListener('change', pickIntroSrc); else if (wideMQ.addListener) wideMQ.addListener(pickIntroSrc);
   if ('IntersectionObserver' in window) {
     new IntersectionObserver((es) => es.forEach((e) => {
       introVisible = e.intersectionRatio > 0;
-      if (bgvid) { if (introVisible) { bgvid.preload = 'auto'; safePlayBg().catch(() => {}); } else bgvid.pause(); }
       if (card.classList.contains('playing')) return;
       if (introVisible) {
         vid.preload = 'auto'; vid.muted = true;
@@ -1231,14 +1240,13 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
       }
       else vid.pause();
     }), { threshold: 0, rootMargin: '200px 0px' }).observe(card);
-  } else { introVisible = true; safePlay().catch(() => {}); safePlayBg().catch(() => {}); }
+  } else { introVisible = true; safePlay().catch(() => {}); }
   /* watchdog: GSAP's ScrollTrigger.refresh() (fired on window load / web-font load) can nudge
      scroll position and race the observer above, leaving the muted preview stuck paused.
      Self-heal every couple of seconds instead of chasing that race. */
   setInterval(() => {
     if (card.classList.contains('playing')) return;
     if (introVisible && vid.paused) safePlay().catch(() => {});
-    if (introVisible && bgvid && bgvid.paused) safePlayBg().catch(() => {});
   }, 900);
   playBtn.addEventListener('click', () => {
     card.classList.add('playing'); vidClose.hidden = false;
