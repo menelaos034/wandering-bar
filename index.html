@@ -97,7 +97,7 @@ html:not(.motion) .loader{display:none}
 /* ---------- fullscreen menu ---------- */
 .menu{position:fixed;inset:0;z-index:100;background:var(--ink);color:var(--white);display:flex;flex-direction:column;padding:calc(14px + env(safe-area-inset-top,0px)) var(--gutter) calc(32px + env(safe-area-inset-bottom,0px));overflow-y:auto;visibility:hidden;clip-path:inset(0 0 100% 0)}
 .menu.is-open{visibility:visible;clip-path:inset(0 0 0 0)}
-.menu-top{display:flex;justify-content:center;align-items:center;position:relative;height:72px;padding-inline:18px 10px;max-width:1440px;margin-inline:auto;width:100%}
+.menu-top{display:flex;justify-content:center;align-items:center;position:relative;height:72px;padding-inline:18px;max-width:1440px;margin-inline:auto;width:100%}
 .menu-top img{height:60px;width:auto}
 .menu-close{position:absolute;right:18px;top:50%;transform:translateY(-50%)}
 .menu-close{width:48px;height:48px;border-radius:99px;border:none;background:var(--gold);display:grid;place-items:center;cursor:pointer;color:var(--white)}
@@ -122,7 +122,7 @@ html:not(.motion) .loader{display:none}
 .menu-phone{font-family:var(--display);font-size:30px}
 .menu-foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:#94A898;font-size:14px;max-width:1440px;margin:32px auto 0;width:100%;padding-inline:18px}
 @media (max-width:820px){.menu-body{grid-template-columns:1fr;gap:clamp(16px,3vh,32px);padding-top:clamp(10px,2vh,24px)}.menu-nav .t{font-size:clamp(30px,8.5vw,52px)}.mi{padding:5px 0}.menu-nav .n{font-size:11px;width:22px}}
-@media (max-width:480px){.menu-nav .t{font-size:clamp(24px,8vw,38px)}.mi{padding:3px 0}.menu-top img{height:48px}.menu-top{height:62px}}
+@media (max-width:480px){.menu{padding-top:calc(34px + env(safe-area-inset-top,0px))}.menu-nav .t{font-size:clamp(24px,8vw,38px)}.mi{padding:3px 0}.menu-top img{height:58px}.menu-top{height:72px}}
 
 /* ---------- HERO (pinned scroll story) ---------- */
 .hero{position:relative;background:var(--ivory);overflow:hidden;color:var(--ink)}
