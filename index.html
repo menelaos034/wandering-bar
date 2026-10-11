@@ -1562,7 +1562,7 @@ a.card:hover .arrow svg{transform:rotate(-45deg);stroke:var(--white)}
         .to(q('.hero-pattern'), { opacity: 0, duration: 0.25 }, 0.05)
         .to(circle, { scale: cover, backgroundColor: '#0D281B', duration: 0.5, ease: 'power2.inOut' }, 0)
         .to(q('.hero-mark .light'), { opacity: 1, duration: 0.2 }, 0.22)
-        .to(mark, wide ? { x: () => window.innerWidth * 0.34, y: () => -window.innerHeight * 0.05, scale: 0.92, duration: 0.45, ease: 'power2.inOut' }
+        .to(mark, wide ? { x: () => window.innerWidth * 0.2, y: () => -window.innerHeight * 0.05, scale: 0.88, duration: 0.45, ease: 'power2.inOut' }
                        : { y: () => window.innerHeight * 0.1, scale: 0.6, duration: 0.45, ease: 'power2.inOut' }, 0.05)
         .to(l2Items, { yPercent: 0, opacity: 1, duration: 0.28, stagger: 0.04, ease: 'power3.out' }, 0.5)
         .to(q('.hero-chip'), { scale: 1, opacity: 1, duration: 0.18, stagger: 0.06, ease: 'back.out(2)' }, 0.78)
